@@ -4,4 +4,6 @@
 target "Feeling" do
   platform :ios, '7.0'
   pod 'JBChartView', '~> 1.1.5'
+  pod "EFCircularSlider", "~> 0.1.0"
+  pod 'HockeySDK'
 end

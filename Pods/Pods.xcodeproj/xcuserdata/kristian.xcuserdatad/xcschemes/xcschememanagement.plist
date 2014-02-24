@@ -4,6 +4,21 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>HockeySDKResources.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-Feeling-EFCircularSlider.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-Feeling-HockeySDK.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Feeling-JBChartView.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -16,6 +31,32 @@
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
-	<dict/>
+	<dict>
+		<key>2F24CD8978064B7F9FC7396B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>984410E611D24DA6B584291E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>AF9C15B4648E419DBBAD244F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BD97D25688AD47D3A0C7C892</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E013F036A173444FBCA3B845</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
 </dict>
 </plist>

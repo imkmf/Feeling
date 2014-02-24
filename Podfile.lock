@@ -1,10 +1,16 @@
 PODS:
+  - EFCircularSlider (0.1.0)
+  - HockeySDK (3.5.4)
   - JBChartView (1.1.5)
 
 DEPENDENCIES:
+  - EFCircularSlider (~> 0.1.0)
+  - HockeySDK
   - JBChartView (~> 1.1.5)
 
 SPEC CHECKSUMS:
+  EFCircularSlider: 2d8272fe7dabf84873ad307e5b2897f9c1d10471
+  HockeySDK: 4f7f7e15c1f594e8ca1e16a09f04e7418289de7a
   JBChartView: 8c349166787e239d9e0f2ad50e14bc57eac7b964
 
 COCOAPODS: 0.29.0

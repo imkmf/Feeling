@@ -6,6 +6,18 @@
 // project.
 
 
+// EFCircularSlider
+#define COCOAPODS_POD_AVAILABLE_EFCircularSlider
+#define COCOAPODS_VERSION_MAJOR_EFCircularSlider 0
+#define COCOAPODS_VERSION_MINOR_EFCircularSlider 1
+#define COCOAPODS_VERSION_PATCH_EFCircularSlider 0
+
+// HockeySDK
+#define COCOAPODS_POD_AVAILABLE_HockeySDK
+#define COCOAPODS_VERSION_MAJOR_HockeySDK 3
+#define COCOAPODS_VERSION_MINOR_HockeySDK 5
+#define COCOAPODS_VERSION_PATCH_HockeySDK 4
+
 // JBChartView
 #define COCOAPODS_POD_AVAILABLE_JBChartView
 #define COCOAPODS_VERSION_MAJOR_JBChartView 1

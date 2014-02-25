@@ -38,6 +38,9 @@
         [[BITHockeyManager sharedHockeyManager] startManager];
         [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
     }
+
+    // For testing notification settings
+    // [application cancelAllLocalNotifications];
     
     // Set notification
     if (application.scheduledLocalNotifications.count == 0) {
@@ -46,6 +49,8 @@
         [notification setAlertBody:@"How are you feeling?"];
         [notification setFireDate:[NSDate dateWithTimeIntervalSinceNow:1]];
         [notification setTimeZone:[NSTimeZone defaultTimeZone]];
+        [notification setSoundName:@"Jingle.aif"];
+        [notification setApplicationIconBadgeNumber:1];
         [application scheduleLocalNotification:notification];
     }
 
@@ -128,6 +133,11 @@
     return fetchedRecords;
 }
 
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    application.applicationIconBadgeNumber = 0;
+}
+
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     if( [[BITHockeyManager sharedHockeyManager].authenticator handleOpenURL:url
                                                           sourceApplication:sourceApplication
@@ -136,7 +146,6 @@
     }
     
     /* Your own custom URL handlers */
-    
     return NO;
 }
 

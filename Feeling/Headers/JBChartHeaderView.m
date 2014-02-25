@@ -49,6 +49,13 @@ static UIColor *kJBChartHeaderViewDefaultSeparatorColor = nil;
         _titleLabel.shadowColor = [UIColor blackColor];
         _titleLabel.shadowOffset = CGSizeMake(0, 1);
         _titleLabel.backgroundColor = [UIColor clearColor];
+        
+        // Check for taps on label for credits
+        UILongPressGestureRecognizer *taplabelGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
+        taplabelGesture.minimumPressDuration = 2.0;
+        _titleLabel.userInteractionEnabled = YES;
+        [_titleLabel addGestureRecognizer:taplabelGesture];
+        
         [self addSubview:_titleLabel];
         
         _subtitleLabel = [[UILabel alloc] init];
@@ -69,6 +76,24 @@ static UIColor *kJBChartHeaderViewDefaultSeparatorColor = nil;
     return self;
 }
 
+- (void)handleLongPress:(UILongPressGestureRecognizer *)gesture {
+    if(UIGestureRecognizerStateBegan == gesture.state) {
+        [self gestureTap];
+    }
+}
+
+-(void)gestureTap
+{
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    UIAlertView *alert = [[UIAlertView alloc]
+                        initWithTitle:[NSString stringWithFormat:@"Feeling %@", version]
+                        message:@"Created by Kristian Freeman.\n Thanks to the 'JBChartView', 'EFCircularSlider', and 'Colours' OSS libraries.\nLogo: Person designed by Catherine Please from the Noun Project, used with the CC BY 3.0 US license.\n Questions? @imkmf on Twitter. <3"
+                        delegate:self
+                        cancelButtonTitle:@"OK"
+                        otherButtonTitles:nil];
+    [alert show];
+}
+
 #pragma mark - Setters
 
 - (void)setSeparatorColor:(UIColor *)separatorColor
@@ -84,7 +109,7 @@ static UIColor *kJBChartHeaderViewDefaultSeparatorColor = nil;
 {
     [super layoutSubviews];
 
-    CGFloat titleHeight = ceil(self.bounds.size.height * 0.5);
+    CGFloat titleHeight = ceil(self.bounds.size.height * 0.5) + 20;
     CGFloat subTitleHeight = self.bounds.size.height - titleHeight - kJBChartHeaderViewSeparatorHeight;
     CGFloat xOffset = kJBChartHeaderViewPadding;
     CGFloat yOffset = 0;

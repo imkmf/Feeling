@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		18BE4FC02D754EFAA7BC2497 /* libPods-Feeling.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C967692E831451E9AE50410 /* libPods-Feeling.a */; };
+		486582B018BC67FC0068BD12 /* Jingle.aif in Resources */ = {isa = PBXBuildFile; fileRef = 486582AF18BC664A0068BD12 /* Jingle.aif */; };
 		486E6C8718BB3626003B778F /* AddEventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 486E6C8618BB3626003B778F /* AddEventViewController.m */; };
 		487CAEF418BB3E5C00269992 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 487CAEF318BB3E5C00269992 /* CoreData.framework */; };
 		487CAEF718BB3E6F00269992 /* Event.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 487CAEF518BB3E6F00269992 /* Event.xcdatamodeld */; };
@@ -41,6 +42,7 @@
 
 /* Begin PBXFileReference section */
 		2C967692E831451E9AE50410 /* libPods-Feeling.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Feeling.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		486582AF18BC664A0068BD12 /* Jingle.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = Jingle.aif; sourceTree = "<group>"; };
 		486E6C8518BB3626003B778F /* AddEventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddEventViewController.h; sourceTree = "<group>"; };
 		486E6C8618BB3626003B778F /* AddEventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddEventViewController.m; sourceTree = "<group>"; };
 		487CAEF318BB3E5C00269992 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -198,6 +200,7 @@
 		489CB04318BB161C00966E29 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				486582AF18BC664A0068BD12 /* Jingle.aif */,
 				489CB04418BB161C00966E29 /* Feeling-Info.plist */,
 				489CB04518BB161C00966E29 /* InfoPlist.strings */,
 				489CB04818BB161C00966E29 /* main.m */,
@@ -303,6 +306,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				486582B018BC67FC0068BD12 /* Jingle.aif in Resources */,
 				489CB04718BB161C00966E29 /* InfoPlist.strings in Resources */,
 				489CB04F18BB161C00966E29 /* Images.xcassets in Resources */,
 			);

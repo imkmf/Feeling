@@ -39,10 +39,12 @@
         [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
     }
 
-    // For testing notification settings
-    // [application cancelAllLocalNotifications];
-    
     // Set notification
+    NSLog(@"%@", application.scheduledLocalNotifications);
+    if (application.scheduledLocalNotifications.count > 1) {
+        // For testing notification settings
+        [application cancelAllLocalNotifications];
+    }
     if (application.scheduledLocalNotifications.count == 0) {
         UILocalNotification *notification = [[UILocalNotification alloc] init];
         notification.repeatInterval = NSDayCalendarUnit;
@@ -53,7 +55,7 @@
         [notification setApplicationIconBadgeNumber:1];
         [application scheduleLocalNotification:notification];
     }
-
+    
     if (self.getAllEvents.count == 0) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Welcome to Feeling"
                                                         message:@"Add your first entry with the add button below. Since you will only have one entry, the graph will appear blank until you come back tomorrow!"

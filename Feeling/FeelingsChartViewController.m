@@ -123,7 +123,7 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
 - (void)addEvent:(id)sender
 {
     bool alreadyExists = false;
-    if (self.fetchedEventsArray.count > 1) {
+    if (self.fetchedEventsArray.count >= 1) {
         for (Event *event in self.fetchedEventsArray) {
             
             // Terrible way to check if there's an entry for today.
@@ -140,9 +140,14 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
             NSDate *stamp = [calendar dateFromComponents:date2Components];
             NSComparisonResult result = [today compare:stamp];
             
+            NSLog(@"%@", today);
+            NSLog(@"%@", stamp);
+            
             if (result == NSOrderedSame) { alreadyExists = true; }
         }
     }
+    
+    NSLog(@"%d", alreadyExists);
     
     if (alreadyExists) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Duplicate entry"

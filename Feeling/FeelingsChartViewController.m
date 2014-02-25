@@ -60,33 +60,31 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
     
     [self getNewData];
     
+    NSArray *colorScheme = [[UIColor robinEggColor] colorSchemeOfType:ColorSchemeAnalagous];
+    
     self.edgesForExtendedLayout = UIRectEdgeTop;
-    self.view.backgroundColor = kJBColorLineChartControllerBackground;
+    self.view.backgroundColor = [UIColor robinEggColor];
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
     self.lineChartView = [[JBLineChartView alloc] initWithFrame:CGRectMake(kJBNumericDefaultPadding, kJBNumericDefaultPadding, self.view.bounds.size.width - (kJBNumericDefaultPadding * 2), kJBLineChartViewControllerChartHeight)];
     self.lineChartView.delegate = self;
     self.lineChartView.dataSource = self;
     self.lineChartView.headerPadding = kJBLineChartViewControllerChartHeaderPadding;
-    self.lineChartView.backgroundColor = [UIColor blackColor];
+    self.lineChartView.backgroundColor = [UIColor clearColor];
     
     JBChartHeaderView *headerView = [[JBChartHeaderView alloc] initWithFrame:CGRectMake(kJBNumericDefaultPadding, ceil(self.view.bounds.size.height * 0.5) - ceil(kJBLineChartViewControllerChartHeaderHeight * 0.5), self.view.bounds.size.width - (kJBNumericDefaultPadding * 2), kJBLineChartViewControllerChartHeaderHeight)];
     headerView.titleLabel.text = [kJBStringLabelHowAreYouFeeling uppercaseString];
     headerView.titleLabel.textColor = [UIColor whiteColor];
     headerView.titleLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.25];
     headerView.titleLabel.shadowOffset = CGSizeMake(0, 1);
-    headerView.separatorColor = kJBColorLineChartHeaderSeparatorColor;
+    headerView.separatorColor = [UIColor clearColor];
     self.lineChartView.headerView = headerView;
+    
+    [self.view addSubview:self.lineChartView];
     
     JBLineChartFooterView *footerView = [[JBLineChartFooterView alloc] initWithFrame:CGRectMake(kJBNumericDefaultPadding, ceil(self.view.bounds.size.height * 0.5) - ceil(kJBLineChartViewControllerChartFooterHeight * 0.5), self.view.bounds.size.width - (kJBNumericDefaultPadding * 2), kJBLineChartViewControllerChartFooterHeight)];
     footerView.backgroundColor = [UIColor clearColor];
-    footerView.leftLabel.text = @"Start";
-    footerView.leftLabel.textColor = [UIColor whiteColor];
-    footerView.rightLabel.text = @"End";
-    footerView.rightLabel.textColor = [UIColor whiteColor];
-    footerView.sectionCount = kJBLineChartViewControllerNumChartPoints;
+    footerView.alpha = 0.0;
     self.lineChartView.footerView = footerView;
-    
-    [self.view addSubview:self.lineChartView];
     
     self.informationView = [[JBChartInformationView alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x, CGRectGetMaxY(self.lineChartView.frame), self.view.bounds.size.width, self.view.bounds.size.height - CGRectGetMaxY(self.lineChartView.frame) - CGRectGetMaxY(self.navigationController.navigationBar.frame)) layout:JBChartInformationViewLayoutVertical];
     [self.informationView setValueAndUnitTextColor:[UIColor colorWithWhite:1.0 alpha:1]];
@@ -103,7 +101,7 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
     
     [self.addView.titleLabel setFont:[UIFont systemFontOfSize:60]];
     [self.addView setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.addView setBackgroundColor:UIColorFromHex(0x222222)];
+    [self.addView setBackgroundColor:[colorScheme objectAtIndex:1]];
     [self.addView setTitle:@"+" forState:UIControlStateNormal];
     [self.addView.titleLabel setTextAlignment: NSTextAlignmentCenter];
     [self.addView setAlpha:1.0];
@@ -124,8 +122,39 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
 
 - (void)addEvent:(id)sender
 {
-    AddEventViewController *addEvent = [[AddEventViewController alloc] init];
-    [self.navigationController presentViewController:addEvent animated:YES completion:nil];
+    bool alreadyExists = false;
+    if (self.fetchedEventsArray.count > 1) {
+        for (Event *event in self.fetchedEventsArray) {
+            
+            // Terrible way to check if there's an entry for today.
+            // Messy to accommodate testing, which has multiple day entries
+            
+            NSCalendar *calendar = [NSCalendar currentCalendar];
+            NSInteger comps = (NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit);
+            
+            NSDateComponents *date1Components = [calendar components:comps
+                                                            fromDate:[NSDate date]];
+            NSDateComponents *date2Components = [calendar components:comps
+                                                            fromDate:event.timestamp];
+            NSDate *today = [calendar dateFromComponents:date1Components];
+            NSDate *stamp = [calendar dateFromComponents:date2Components];
+            NSComparisonResult result = [today compare:stamp];
+            
+            if (result == NSOrderedSame) { alreadyExists = true; }
+        }
+    }
+    
+    if (alreadyExists) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Duplicate entry"
+                                                        message:@"You've already added an entry for today. Please wait until tomorrow!"
+                                                       delegate:self
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+    } else {
+        AddEventViewController *addEvent = [[AddEventViewController alloc] init];
+        [self.navigationController presentViewController:addEvent animated:YES completion:nil];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -147,18 +176,17 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
 {
     Event *event = [self.fetchedEventsArray objectAtIndex:index];
     float rating = event.rating.floatValue;
-    NSLog(@"%f", rating);
     return rating;
 }
 
 - (void)lineChartView:(JBLineChartView *)lineChartView didSelectChartAtIndex:(NSInteger)index
 {
     Event *event = [self.fetchedEventsArray objectAtIndex:index];
-    
+
     [self.informationView setValueText:[NSString stringWithFormat:@"%@", event.rating] unitText:@""];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"MM/dd/yyyy"];
+    [dateFormatter setDateFormat:@"MM/dd/yy"];
     NSString *textDate = [NSString stringWithFormat:@"%@",[dateFormatter stringFromDate:event.timestamp]];
     [self.informationView setTitleText:textDate];
     
@@ -195,22 +223,7 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
 
 - (UIColor *)selectionColorForLineChartView:(JBLineChartView *)lineChartView
 {
-    return [UIColor whiteColor];
-}
-
-#pragma mark - Buttons
-
-- (void)chartToggleButtonPressed:(id)sender
-{
-    UIView *buttonImageView = [self.navigationItem.rightBarButtonItem valueForKey:kJBLineChartViewControllerNavButtonViewKey];
-    buttonImageView.userInteractionEnabled = NO;
-    
-    CGAffineTransform transform = self.lineChartView.state == JBChartViewStateExpanded ? CGAffineTransformMakeRotation(M_PI) : CGAffineTransformMakeRotation(0);
-    buttonImageView.transform = transform;
-    
-    [self.lineChartView setState:self.lineChartView.state == JBChartViewStateExpanded ? JBChartViewStateCollapsed : JBChartViewStateExpanded animated:YES callback:^{
-        buttonImageView.userInteractionEnabled = YES;
-    }];
+    return [UIColor limeColor];
 }
 
 @end

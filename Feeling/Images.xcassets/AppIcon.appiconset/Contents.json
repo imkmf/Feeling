@@ -11,9 +11,39 @@
       "scale" : "2x"
     },
     {
+      "size" : "57x57",
+      "idiom" : "iphone",
+      "filename" : "apple-touch-icon-precomposed.png",
+      "scale" : "1x"
+    },
+    {
+      "size" : "57x57",
+      "idiom" : "iphone",
+      "filename" : "apple-touch-icon-114x114-precomposed.png",
+      "scale" : "2x"
+    },
+    {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "Icon.png",
+      "filename" : "apple-touch-icon-120x120-precomposed.png",
+      "scale" : "2x"
+    },
+    {
+      "size" : "72x72",
+      "idiom" : "ipad",
+      "filename" : "apple-touch-icon-144x144-precomposed.png",
+      "scale" : "2x"
+    },
+    {
+      "size" : "76x76",
+      "idiom" : "ipad",
+      "filename" : "apple-touch-icon-76x76-precomposed.png",
+      "scale" : "1x"
+    },
+    {
+      "size" : "76x76",
+      "idiom" : "ipad",
+      "filename" : "apple-touch-icon-152x152-precomposed.png",
       "scale" : "2x"
     }
   ],

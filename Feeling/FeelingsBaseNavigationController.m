@@ -13,17 +13,16 @@
 - (id)initWithRootViewController:(UIViewController *)rootViewController {
     self = [super initWithRootViewController:rootViewController];
     if (self) {
-        self.navigationBar.translucent = NO;
-        [[UINavigationBar appearance] setBarTintColor:kJBColorNavigationTint];
-        [[UINavigationBar appearance] setTintColor:kJBColorNavigationBarTint];
-        self.navigationController.navigationBar.titleTextAttributes =
-        @{
-          NSForegroundColorAttributeName : [UIColor whiteColor],
-        };
-        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-
+        [self.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+        self.navigationBar.shadowImage = [UIImage new];
+        self.navigationBar.translucent = YES;
+        [[UINavigationBar appearance] setBarTintColor:[UIColor robinEggColor]];
     }
     return self;
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
 }
 
 - (void)viewDidLoad

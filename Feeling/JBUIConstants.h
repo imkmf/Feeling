@@ -8,7 +8,7 @@
 
 #pragma mark - Numerics
 
-#define kJBNumericDefaultPadding 10.0f
+#define kJBNumericDefaultPadding 40.0f
 #define kJBNumericDefaultAnimationDuration 0.25f
 
 #pragma mark - Images

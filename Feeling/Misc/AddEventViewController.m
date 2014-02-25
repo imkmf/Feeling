@@ -14,7 +14,11 @@
 @interface AddEventViewController ()
 @property (nonatomic, assign) BOOL changed;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, retain) UILabel *ratingLabel;
+
 @property (nonatomic, retain) EFCircularSlider *slider;
+
+@property (nonatomic, retain) NSArray *colorScheme;
 
 @end
 
@@ -24,7 +28,8 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        [self.view setBackgroundColor:[UIColor whiteColor]];
+        self.colorScheme = [[UIColor robinEggColor] colorSchemeOfType:ColorSchemeTriad];
+        [self.view setBackgroundColor:[UIColor robinEggColor]];
         self.changed = NO;
     }
     return self;
@@ -53,14 +58,28 @@
 
 - (void)viewDidLoad
 {
-    CGRect sliderFrame = CGRectMake(10, 40, 300, 300);
+    CGRect sliderFrame = CGRectMake(10, 100, 300, 300);
     self.slider = [[EFCircularSlider alloc] initWithFrame:sliderFrame];
     [self.slider addTarget:self action:@selector(valueChanged:) forControlEvents:UIControlEventValueChanged];
     [self.slider setLineWidth:20];
-    [self.slider setFilledColor:UIColorFromHex(0x999999)];
+    [self.slider setFilledColor:[UIColor whiteColor]];
     [self.view addSubview:self.slider];
     AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
     self.managedObjectContext = appDelegate.managedObjectContext;
+    
+    UILabel *introText = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 60)];
+    introText.text = @"How are you?";
+    [introText setFont:[UIFont boldSystemFontOfSize:30]];
+    [introText setTextColor:[UIColor whiteColor]];
+    [introText setTextAlignment:NSTextAlignmentCenter];
+    [self.view addSubview:introText];
+    
+    self.ratingLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 190, 120, 120)];
+    self.ratingLabel.text = @"0";
+    [self.ratingLabel setFont:[UIFont boldSystemFontOfSize:40]];
+    [self.ratingLabel setTextColor:[UIColor whiteColor]];
+    [self.ratingLabel setTextAlignment:NSTextAlignmentCenter];
+    [self.view addSubview:self.ratingLabel];
     [super viewDidLoad];
 }
 
@@ -69,28 +88,40 @@
         self.changed = YES;
         [self showButtons];
     }
+    NSNumber *rounded = [NSNumber numberWithInt:(int)self.slider.currentValue];
+    [self setBar:rounded];
+    self.ratingLabel.text = [NSString stringWithFormat:@"%@", rounded];
+}
+
+-(void)setBar:(NSNumber*)rounded {
+    int num = [rounded intValue];
+    if (0 < num && num < 50) {
+        self.slider.filledColor = [UIColor salmonColor];
+    } else if (51 < num && num < 100) {
+        self.slider.filledColor = [UIColor pastelGreenColor];
+    }
 }
 
 - (void)showButtons {
     UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [cancelButton setFrame:CGRectMake(0, 360, 160, 120)];
+    [cancelButton setFrame:CGRectMake(0, 420, 160, 120)];
     [cancelButton setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
     
     [cancelButton.titleLabel setFont:[UIFont systemFontOfSize:60]];
     [cancelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [cancelButton setBackgroundColor:UIColorFromHex(0x222222)];
+    [cancelButton setBackgroundColor:[UIColor salmonColor]];
     [cancelButton setTitle:@"x" forState:UIControlStateNormal];
     [cancelButton.titleLabel setTextAlignment: NSTextAlignmentCenter];
     [cancelButton setAlpha:0.0];
     [cancelButton addTarget:self action:@selector(willCancel) forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *addButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [addButton setFrame:CGRectMake(160, 360, 160, 120)];
+    [addButton setFrame:CGRectMake(160, 420, 160, 120)];
     [addButton setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
     
     [addButton.titleLabel setFont:[UIFont systemFontOfSize:60]];
     [addButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [addButton setBackgroundColor:UIColorFromHex(0x222222)];
+    [addButton setBackgroundColor:[UIColor pastelGreenColor]];
     [addButton setTitle:@"+" forState:UIControlStateNormal];
     [addButton.titleLabel setTextAlignment: NSTextAlignmentCenter];
     [addButton setAlpha:0.0];

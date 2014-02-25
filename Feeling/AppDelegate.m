@@ -13,6 +13,10 @@
 #import "FeelingsBaseNavigationController.h"
 #import "FeelingsChartViewController.h"
 
+#ifdef __APPLE__
+#include "TargetConditionals.h"
+#endif
+
 @implementation AppDelegate
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
@@ -28,10 +32,39 @@
     self.window.rootViewController = navigationController;
     [self.window makeKeyAndVisible];
     
-    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"1649200acbc9eacb3becf09ca3a95d20" delegate:self];
-    [[BITHockeyManager sharedHockeyManager].authenticator setIdentificationType:BITAuthenticatorIdentificationTypeDevice];
-    [[BITHockeyManager sharedHockeyManager] startManager];
-    [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
+    if (!TARGET_IPHONE_SIMULATOR) {
+        [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"1649200acbc9eacb3becf09ca3a95d20" delegate:self];
+        [[BITHockeyManager sharedHockeyManager].authenticator setIdentificationType:BITAuthenticatorIdentificationTypeDevice];
+        [[BITHockeyManager sharedHockeyManager] startManager];
+        [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
+    }
+    
+    // Set notification
+    if (application.scheduledLocalNotifications.count == 0) {
+        UILocalNotification *notification = [[UILocalNotification alloc] init];
+        notification.repeatInterval = NSDayCalendarUnit;
+        [notification setAlertBody:@"How are you feeling?"];
+        [notification setFireDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+        [notification setTimeZone:[NSTimeZone defaultTimeZone]];
+        [application scheduleLocalNotification:notification];
+    }
+
+    if (self.getAllEvents.count == 0) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Welcome to Feeling"
+                                                        message:@"Add your first entry with the add button below. Since you will only have one entry, the graph will appear blank until you come back tomorrow!"
+                                                       delegate:self
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+    } else if (self.getAllEvents.count == 1) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Single entry"
+                                                        message:@"You've only added one entry, so your graph is empty. Come back tomorrow!"
+                                                       delegate:self
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
+    
     return YES;
 }
 

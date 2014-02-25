@@ -6,4 +6,5 @@ target "Feeling" do
   pod 'JBChartView', '~> 1.1.5'
   pod "EFCircularSlider", "~> 0.1.0"
   pod 'HockeySDK'
+  pod 'Colours', '~> 5.1.0'
 end

@@ -1,6 +1,0 @@
-FRAMEWORK_SEARCH_PATHS = "$(PODS_ROOT)/HockeySDK/Vendor"
-GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1 $(inherited) BITHOCKEY_VERSION="@\"3.5.4\"" BITHOCKEY_BUILD="@\"27\""
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/EFCircularSlider" "${PODS_ROOT}/Headers/HockeySDK" "${PODS_ROOT}/Headers/JBChartView"
-OTHER_CFLAGS = $(inherited) "-isystem${PODS_ROOT}/Headers" "-isystem${PODS_ROOT}/Headers/EFCircularSlider" "-isystem${PODS_ROOT}/Headers/HockeySDK" "-isystem${PODS_ROOT}/Headers/JBChartView"
-OTHER_LDFLAGS = -ObjC -framework CoreGraphics -framework CoreText -framework CrashReporter -framework QuartzCore -framework Security -framework SystemConfiguration -framework UIKit
-PODS_ROOT = ${SRCROOT}/Pods

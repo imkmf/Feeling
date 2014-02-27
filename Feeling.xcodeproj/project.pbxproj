@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		18BE4FC02D754EFAA7BC2497 /* libPods-Feeling.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C967692E831451E9AE50410 /* libPods-Feeling.a */; };
+		4848DFC718BF050500FC2FA2 /* EventsListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4848DFC618BF050500FC2FA2 /* EventsListController.m */; };
+		4848DFC918BF0F9600FC2FA2 /* arrow-down.png in Resources */ = {isa = PBXBuildFile; fileRef = 4848DFC818BF0F9600FC2FA2 /* arrow-down.png */; };
 		486582B018BC67FC0068BD12 /* Jingle.aif in Resources */ = {isa = PBXBuildFile; fileRef = 486582AF18BC664A0068BD12 /* Jingle.aif */; };
 		486E6C8718BB3626003B778F /* AddEventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 486E6C8618BB3626003B778F /* AddEventViewController.m */; };
 		487CAEF418BB3E5C00269992 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 487CAEF318BB3E5C00269992 /* CoreData.framework */; };
@@ -42,9 +44,12 @@
 
 /* Begin PBXFileReference section */
 		2C967692E831451E9AE50410 /* libPods-Feeling.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Feeling.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4848DFC518BF050500FC2FA2 /* EventsListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventsListController.h; sourceTree = "<group>"; };
+		4848DFC618BF050500FC2FA2 /* EventsListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventsListController.m; sourceTree = "<group>"; };
+		4848DFC818BF0F9600FC2FA2 /* arrow-down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-down.png"; sourceTree = "<group>"; };
 		486582AF18BC664A0068BD12 /* Jingle.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = Jingle.aif; sourceTree = "<group>"; };
-		486E6C8518BB3626003B778F /* AddEventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddEventViewController.h; sourceTree = "<group>"; };
-		486E6C8618BB3626003B778F /* AddEventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddEventViewController.m; sourceTree = "<group>"; };
+		486E6C8518BB3626003B778F /* AddEventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddEventViewController.h; path = Misc/AddEventViewController.h; sourceTree = "<group>"; };
+		486E6C8618BB3626003B778F /* AddEventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddEventViewController.m; path = Misc/AddEventViewController.m; sourceTree = "<group>"; };
 		487CAEF318BB3E5C00269992 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		487CAEF618BB3E6F00269992 /* Event.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Event.xcdatamodel; sourceTree = "<group>"; };
 		487CAEF818BB3F2000269992 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
@@ -123,8 +128,6 @@
 			children = (
 				4892175018BB1CA800F0C6EE /* JBChartInformationView.h */,
 				4892175118BB1CA800F0C6EE /* JBChartInformationView.m */,
-				486E6C8518BB3626003B778F /* AddEventViewController.h */,
-				486E6C8618BB3626003B778F /* AddEventViewController.m */,
 			);
 			path = Misc;
 			sourceTree = "<group>";
@@ -200,6 +203,7 @@
 		489CB04318BB161C00966E29 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4848DFC818BF0F9600FC2FA2 /* arrow-down.png */,
 				486582AF18BC664A0068BD12 /* Jingle.aif */,
 				489CB04418BB161C00966E29 /* Feeling-Info.plist */,
 				489CB04518BB161C00966E29 /* InfoPlist.strings */,
@@ -221,10 +225,14 @@
 		48B73F7718BB1749008B05BB /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				486E6C8518BB3626003B778F /* AddEventViewController.h */,
+				486E6C8618BB3626003B778F /* AddEventViewController.m */,
 				48B73F7C18BB194A008B05BB /* FeelingsChartViewController.h */,
 				48B73F7D18BB194A008B05BB /* FeelingsChartViewController.m */,
 				48B73F7918BB1782008B05BB /* FeelingsBaseNavigationController.h */,
 				48B73F7A18BB1782008B05BB /* FeelingsBaseNavigationController.m */,
+				4848DFC518BF050500FC2FA2 /* EventsListController.h */,
+				4848DFC618BF050500FC2FA2 /* EventsListController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -307,6 +315,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				486582B018BC67FC0068BD12 /* Jingle.aif in Resources */,
+				4848DFC918BF0F9600FC2FA2 /* arrow-down.png in Resources */,
 				489CB04718BB161C00966E29 /* InfoPlist.strings in Resources */,
 				489CB04F18BB161C00966E29 /* Images.xcassets in Resources */,
 			);
@@ -365,6 +374,7 @@
 				4892175218BB1CA800F0C6EE /* JBChartInformationView.m in Sources */,
 				48B73F7B18BB1782008B05BB /* FeelingsBaseNavigationController.m in Sources */,
 				489CB04D18BB161C00966E29 /* AppDelegate.m in Sources */,
+				4848DFC718BF050500FC2FA2 /* EventsListController.m in Sources */,
 				486E6C8718BB3626003B778F /* AddEventViewController.m in Sources */,
 				48B73F7E18BB194A008B05BB /* FeelingsChartViewController.m in Sources */,
 				487CAEF718BB3E6F00269992 /* Event.xcdatamodeld in Sources */,

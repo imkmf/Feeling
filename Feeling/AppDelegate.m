@@ -12,6 +12,9 @@
 // Controllers
 #import "FeelingsBaseNavigationController.h"
 #import "FeelingsChartViewController.h"
+#import "EventsListController.h"
+
+#import "Event.h"
 
 #ifdef __APPLE__
 #include "TargetConditionals.h"
@@ -28,8 +31,19 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+
+    UIPageViewController *pagesController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationVertical options:nil];
+    
     FeelingsBaseNavigationController *navigationController = [[FeelingsBaseNavigationController alloc] initWithRootViewController:[[FeelingsChartViewController alloc] init]];
-    self.window.rootViewController = navigationController;
+    
+    [pagesController setViewControllers:@[navigationController] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
+    
+    pagesController.dataSource = self;
+    
+    // For Testing
+    // [self insertTestData];
+    
+    self.window.rootViewController = pagesController;
     [self.window makeKeyAndVisible];
     
     if (!TARGET_IPHONE_SIMULATOR) {
@@ -39,8 +53,6 @@
         [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
     }
 
-    // Set notification
-    NSLog(@"%@", application.scheduledLocalNotifications);
     if (application.scheduledLocalNotifications.count > 1) {
         // For testing notification settings
         [application cancelAllLocalNotifications];
@@ -149,6 +161,38 @@
     
     /* Your own custom URL handlers */
     return NO;
+}
+
+- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
+    
+    if ([viewController isKindOfClass:[FeelingsBaseNavigationController class]])
+        return nil;
+    
+    FeelingsBaseNavigationController *navigationController = [[FeelingsBaseNavigationController alloc] initWithRootViewController:[[FeelingsChartViewController alloc] init]];
+    
+    return navigationController;
+    
+}
+
+- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController
+{
+    if ([viewController isKindOfClass:[UITableViewController class]])
+        return nil;
+        
+    EventsListController *listController = [[EventsListController alloc] initWithStyle:UITableViewStylePlain];
+
+    return listController;
+}
+
+- (void)insertTestData {
+    Event *newEvent = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
+                                                    inManagedObjectContext:self.managedObjectContext];
+    newEvent.timestamp = [NSDate dateWithTimeIntervalSinceNow:-1209600.0];
+    newEvent.rating = [NSNumber numberWithFloat:1.0];
+    NSError *error;
+    if (![self.managedObjectContext save:&error]) {
+        NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
+    }
 }
 
 @end

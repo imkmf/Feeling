@@ -38,10 +38,6 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
 
 @property (nonatomic,strong) NSArray *fetchedEventsArray;
 
-// Buttons
-- (void)chartToggleButtonPressed:(id)sender;
-
-
 @end
 
 @implementation FeelingsChartViewController
@@ -96,7 +92,7 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
     [self.lineChartView reloadData];
     
     self.addView = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [self.addView setFrame:CGRectMake(self.view.bounds.origin.x, CGRectGetMaxY(self.lineChartView.frame) + 40, self.view.bounds.size.width, self.view.bounds.size.height - CGRectGetMaxY(self.lineChartView.frame) - CGRectGetMaxY(self.navigationController.navigationBar.frame))];
+    [self.addView setFrame:CGRectMake(self.view.bounds.origin.x, CGRectGetMaxY(self.lineChartView.frame) + 40, self.view.bounds.size.width, CGRectGetMaxY(self.lineChartView.frame) / 2)];
     [self.addView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
     
     [self.addView.titleLabel setFont:[UIFont systemFontOfSize:60]];
@@ -107,6 +103,11 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
     [self.addView setAlpha:1.0];
     [self.addView addTarget:self action:@selector(addEvent:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.addView];
+    
+    UIImageView *arrow = [[UIImageView alloc] initWithFrame:CGRectMake(135, CGRectGetMaxY(self.lineChartView.frame) + 220, 50, 50)];
+    arrow.image = [UIImage imageNamed:@"arrow-down.png"];
+    arrow.alpha = 0.5;
+    [self.view addSubview:arrow];
     
     self.lineChartView.dataSource = self;
     self.lineChartView.delegate = self;
@@ -140,14 +141,9 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
             NSDate *stamp = [calendar dateFromComponents:date2Components];
             NSComparisonResult result = [today compare:stamp];
             
-            NSLog(@"%@", today);
-            NSLog(@"%@", stamp);
-            
             if (result == NSOrderedSame) { alreadyExists = true; }
         }
     }
-    
-    NSLog(@"%d", alreadyExists);
     
     if (alreadyExists) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Duplicate entry"
@@ -160,6 +156,14 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
         AddEventViewController *addEvent = [[AddEventViewController alloc] init];
         [self.navigationController presentViewController:addEvent animated:YES completion:nil];
     }
+    
+    AddEventViewController *addEvent = [[AddEventViewController alloc] init];
+    [self.navigationController presentViewController:addEvent animated:YES completion:nil];
+}
+
+- (void)reloadGraph {
+    [self getNewData];
+    [self.lineChartView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated

@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Feeling/AppDelegate.m"
-            timestampString = "415002724.618805"
+            timestampString = "415175330.048709"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "67"
-            endingLineNumber = "67"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
             landmarkName = "-application:didFinishLaunchingWithOptions:"
             landmarkType = "5">
          </BreakpointContent>

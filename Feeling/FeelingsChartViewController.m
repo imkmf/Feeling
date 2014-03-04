@@ -46,6 +46,7 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        [self getNewData];
     }
     return self;
 }
@@ -53,8 +54,6 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
 - (void)loadView
 {
     [super loadView];
-    
-    [self getNewData];
     
     NSArray *colorScheme = [[UIColor robinEggColor] colorSchemeOfType:ColorSchemeAnalagous];
     
@@ -104,15 +103,16 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
     [self.addView addTarget:self action:@selector(addEvent:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.addView];
     
-    UIImageView *arrow = [[UIImageView alloc] initWithFrame:CGRectMake(135, CGRectGetMaxY(self.lineChartView.frame) + 220, 50, 50)];
-    arrow.image = [UIImage imageNamed:@"arrow-down.png"];
+    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+    
+    UIButton *arrow = [[UIButton alloc] initWithFrame:CGRectMake(135, CGRectGetMaxY(self.lineChartView.frame) + 220, 50, 50)];
+    [arrow setImage:[UIImage imageNamed:@"arrow-down.png"] forState:UIControlStateNormal];
     arrow.alpha = 0.5;
+    [arrow addTarget:appDelegate action:@selector(toTable) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:arrow];
     
     self.lineChartView.dataSource = self;
     self.lineChartView.delegate = self;
-    
-    [self getNewData];
 
 }
 
@@ -176,7 +176,6 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.lineChartView setState:JBChartViewStateCollapsed];
 }
 
 #pragma mark - JBLineChartViewDelegate

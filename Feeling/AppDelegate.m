@@ -32,18 +32,18 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-    UIPageViewController *pagesController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationVertical options:nil];
+    self.pageViewController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationVertical options:nil];
     
-    FeelingsBaseNavigationController *navigationController = [[FeelingsBaseNavigationController alloc] initWithRootViewController:[[FeelingsChartViewController alloc] init]];
+    self.navigationController = [[FeelingsBaseNavigationController alloc] initWithRootViewController:[[FeelingsChartViewController alloc] init]];
     
-    [pagesController setViewControllers:@[navigationController] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
+    [self.pageViewController setViewControllers:@[self.navigationController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
     
-    pagesController.dataSource = self;
+    self.pageViewController.dataSource = self.navigationController;
     
     // For Testing
     // [self insertTestData];
     
-    self.window.rootViewController = pagesController;
+    self.window.rootViewController = self.pageViewController;
     [self.window makeKeyAndVisible];
     
     if (!TARGET_IPHONE_SIMULATOR) {
@@ -98,6 +98,19 @@
     }
     
     return _managedObjectContext;
+}
+
+- (void)toTable {
+    EventsListController *listController = [[EventsListController alloc] initWithStyle:UITableViewStylePlain];
+    [self turnPage:listController direction:UIPageViewControllerNavigationDirectionForward];
+}
+
+- (void)goBack {
+    [self turnPage:self.navigationController direction:UIPageViewControllerNavigationDirectionReverse];
+}
+
+- (void)turnPage:(id)controller direction:(UIPageViewControllerNavigationDirection)direction {
+    [self.pageViewController setViewControllers:@[controller] direction:direction animated:YES completion:nil];
 }
 
 - (NSManagedObjectModel *)managedObjectModel {

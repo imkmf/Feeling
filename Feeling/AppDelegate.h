@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FeelingsBaseNavigationController.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -14,7 +15,10 @@
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property (strong, nonatomic) UIPageViewController *pageViewController;
+@property (strong, nonatomic) FeelingsBaseNavigationController *navigationController;
 
 -(NSArray*) getAllEvents;
+-(void) goBack;
 
 @end

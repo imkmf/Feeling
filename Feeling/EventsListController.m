@@ -70,4 +70,15 @@
     
     return cell;
 }
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self back];
+}
+
+- (void)back {
+    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+    [appDelegate goBack];
+}
+
 @end

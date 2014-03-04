@@ -10,6 +10,7 @@
 #import <EFCircularSlider.h>
 #import "Event.h"
 #import "AppDelegate.h"
+#import <CRToast.h>
 
 @interface AddEventViewController ()
 @property (nonatomic, assign) BOOL changed;
@@ -45,6 +46,20 @@
     if (![self.managedObjectContext save:&error]) {
         NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
     }
+    
+    NSArray *colorScheme = [[UIColor robinEggColor] colorSchemeOfType:ColorSchemeAnalagous];
+
+    NSDictionary *options = @{
+                              kCRToastTextKey : @"Thanks for the report!",
+                              kCRToastTextAlignmentKey : @(NSTextAlignmentCenter),
+                              kCRToastBackgroundColorKey : [colorScheme objectAtIndex:3],
+                              kCRToastAnimationInTypeKey : @(CRToastAnimationTypeGravity),
+                              kCRToastAnimationOutTypeKey : @(CRToastAnimationTypeGravity),
+                              kCRToastAnimationInDirectionKey : @(CRToastAnimationDirectionLeft),
+                              kCRToastAnimationOutDirectionKey : @(CRToastAnimationDirectionRight),
+                              kCRToastNotificationTypeKey : @(CRToastTypeNavigationBar)
+                              };
+    [CRToastManager showNotificationWithOptions:options completionBlock:nil];
     [self dismissNow];
 }
 

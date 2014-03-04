@@ -7,4 +7,5 @@ target "Feeling" do
   pod "EFCircularSlider", "~> 0.1.0"
   pod 'HockeySDK'
   pod 'Colours', '~> 5.1.0'
+  pod 'CRToast', '~> 0.0.5'
 end

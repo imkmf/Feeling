@@ -4,6 +4,7 @@ PODS:
   - EFCircularSlider (0.1.0)
   - HockeySDK (3.5.4)
   - JBChartView (1.1.5)
+  - MYBlurIntroductionView (1.0.3)
 
 DEPENDENCIES:
   - Colours (~> 5.1.0)
@@ -11,6 +12,7 @@ DEPENDENCIES:
   - EFCircularSlider (~> 0.1.0)
   - HockeySDK
   - JBChartView (~> 1.1.5)
+  - MYBlurIntroductionView
 
 SPEC CHECKSUMS:
   Colours: 78268809d1aa26924da3551e59393d4e72e4f63a
@@ -18,5 +20,6 @@ SPEC CHECKSUMS:
   EFCircularSlider: 2d8272fe7dabf84873ad307e5b2897f9c1d10471
   HockeySDK: 4f7f7e15c1f594e8ca1e16a09f04e7418289de7a
   JBChartView: 8c349166787e239d9e0f2ad50e14bc57eac7b964
+  MYBlurIntroductionView: 0ed5699c570ceb1cdfc86dc6cf7dae869950d677
 
 COCOAPODS: 0.29.0

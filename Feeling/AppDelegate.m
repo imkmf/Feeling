@@ -41,7 +41,7 @@
     self.pageViewController.dataSource = self.navigationController;
     
     // For Testing
-    // [self insertTestData];
+//    [self insertTestData];
     
     self.window.rootViewController = self.pageViewController;
     [self.window makeKeyAndVisible];
@@ -198,14 +198,22 @@
 }
 
 - (void)insertTestData {
-    Event *newEvent = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
-                                                    inManagedObjectContext:self.managedObjectContext];
-    newEvent.timestamp = [NSDate dateWithTimeIntervalSinceNow:-1209600.0];
-    newEvent.rating = [NSNumber numberWithFloat:1.0];
-    NSError *error;
-    if (![self.managedObjectContext save:&error]) {
-        NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
+    int i;
+    for (i=0; i < 10; i = i + 1) {
+        Event *newEvent = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
+                                                        inManagedObjectContext:self.managedObjectContext];
+        int max = 100;
+        int min = 0;
+        int randomNumber = min + arc4random() % (max-min);
+        newEvent.timestamp = [NSDate dateWithTimeIntervalSinceNow:-1209600.0 + (randomNumber * 100)];
+        newEvent.rating = [NSNumber numberWithInt:randomNumber];
+        NSError *error;
+        NSLog(@"new event");
+        if (![self.managedObjectContext save:&error]) {
+            NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
+        }
     }
+
 }
 
 @end

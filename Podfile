@@ -8,4 +8,5 @@ target "Feeling" do
   pod 'HockeySDK'
   pod 'Colours', '~> 5.1.0'
   pod 'CRToast', '~> 0.0.5'
+  pod 'MYBlurIntroductionView'
 end

@@ -7,9 +7,11 @@
 //
 
 #import "AddEventViewController.h"
-#import <EFCircularSlider.h>
 #import "Event.h"
 #import "AppDelegate.h"
+
+#import "SoundManager.h"
+#import "EFCircularSlider.h"
 #import <CRToast.h>
 
 @interface AddEventViewController ()
@@ -20,6 +22,8 @@
 @property (nonatomic, retain) EFCircularSlider *slider;
 
 @property (nonatomic, retain) NSArray *colorScheme;
+@property (nonatomic, retain) NSNumber *number;
+@property (nonatomic, retain) SoundManager *manager;
 
 @end
 
@@ -32,16 +36,19 @@
         self.colorScheme = [[UIColor robinEggColor] colorSchemeOfType:ColorSchemeTriad];
         [self.view setBackgroundColor:[UIColor robinEggColor]];
         self.changed = NO;
+        self.manager = [[SoundManager alloc] init];
+        self.manager.allowsBackgroundMusic = YES;
     }
     return self;
 }
                                       
 - (void)willSave {
     NSNumber *rounded = [NSNumber numberWithInt:(int)self.slider.currentValue];
+    NSDate *date = [NSDate date];
     Event *newEvent = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
                                                       inManagedObjectContext:self.managedObjectContext];
-    newEvent.timestamp = [NSDate date];
-    newEvent.rating = rounded;
+    newEvent.timestamp = date;
+    newEvent.rating = self.number;
     NSError *error;
     if (![self.managedObjectContext save:&error]) {
         NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
@@ -60,6 +67,9 @@
                               kCRToastNotificationTypeKey : @(CRToastTypeNavigationBar)
                               };
     [CRToastManager showNotificationWithOptions:options completionBlock:nil];
+    
+    NSArray *notifications = [[UIApplication sharedApplication] scheduledLocalNotifications];
+    
     [self dismissNow];
 }
 
@@ -73,11 +83,11 @@
 
 - (void)viewDidLoad
 {
-    CGRect sliderFrame = CGRectMake(10, 100, 300, 300);
+    CGRect sliderFrame = CGRectMake(60, 150, 200, 200);
     self.slider = [[EFCircularSlider alloc] initWithFrame:sliderFrame];
+    self.slider.labelFont = [UIFont systemFontOfSize:28.0f];
     [self.slider addTarget:self action:@selector(valueChanged:) forControlEvents:UIControlEventValueChanged];
     [self.slider setLineWidth:20];
-    [self.slider setFilledColor:[UIColor whiteColor]];
     [self.view addSubview:self.slider];
     AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
     self.managedObjectContext = appDelegate.managedObjectContext;
@@ -90,7 +100,7 @@
     [self.view addSubview:introText];
     
     self.ratingLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 190, 120, 120)];
-    self.ratingLabel.text = @"0";
+    self.ratingLabel.text = @"?";
     [self.ratingLabel setFont:[UIFont boldSystemFontOfSize:40]];
     [self.ratingLabel setTextColor:[UIColor whiteColor]];
     [self.ratingLabel setTextAlignment:NSTextAlignmentCenter];
@@ -98,22 +108,44 @@
     [super viewDidLoad];
 }
 
--(void)valueChanged:(EFCircularSlider*)slider {
+-(void)valueChanged:(EFCircularSlider *)slider {
     if (!self.changed) {
         self.changed = YES;
         [self showButtons];
     }
-    NSNumber *rounded = [NSNumber numberWithInt:(int)self.slider.currentValue];
+    NSNumber *rounded = [NSNumber numberWithInt:0];
+    if (self.slider.currentValue < 20.0f) {
+        rounded = [NSNumber numberWithInt:1];
+    } else if (self.slider.currentValue < 40.0f) {
+        rounded = [NSNumber numberWithInt:2];
+    } else if (self.slider.currentValue < 60.0f) {
+        rounded = [NSNumber numberWithInt:3];
+    } else if (self.slider.currentValue < 80.0f) {
+        rounded = [NSNumber numberWithInt:4];
+    } else if (self.slider.currentValue < 100.0f) {
+        rounded = [NSNumber numberWithInt:5];
+    }
     [self setBar:rounded];
+    [self setNumberAndPlaySound:rounded];
     self.ratingLabel.text = [NSString stringWithFormat:@"%@", rounded];
 }
 
 -(void)setBar:(NSNumber*)rounded {
-    int num = [rounded intValue];
-    if (0 < num && num < 50) {
-        self.slider.filledColor = [UIColor salmonColor];
-    } else if (51 < num && num < 100) {
-        self.slider.filledColor = [UIColor pastelGreenColor];
+    UIColor *color = [UIColor colorWithRed:(1 - (self.slider.currentValue / 100.0f)) green:(self.slider.currentValue / 100.0f) blue:0 alpha:1];
+    self.slider.filledColor = color;
+}
+
+-(void)setNumberAndPlaySound:(NSNumber*)rounded {
+    if (![self.number isEqualToNumber:rounded]) {
+        self.number = rounded;
+        if ([[NSUserDefaults standardUserDefaults] stringForKey:@"Play Sounds"]) {
+            NSString *path = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%i", [rounded intValue]] ofType:@"caf"];
+            Sound *sound = [Sound soundNamed:path];
+            
+            [self.manager prepareToPlay];
+            [self.manager playSound:sound];
+        }
+        
     }
 }
 

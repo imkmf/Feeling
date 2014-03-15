@@ -30,6 +30,17 @@
 		489CB05818BB161C00966E29 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 489CB04018BB161C00966E29 /* UIKit.framework */; };
 		48B73F7B18BB1782008B05BB /* FeelingsBaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48B73F7A18BB1782008B05BB /* FeelingsBaseNavigationController.m */; };
 		48B73F7E18BB194A008B05BB /* FeelingsChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48B73F7D18BB194A008B05BB /* FeelingsChartViewController.m */; };
+		48BED40518D4F8AD0031C68C /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48BED40318D4F8950031C68C /* AVFoundation.framework */; };
+		48BED40918D4FBF60031C68C /* SoundManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 48BED40818D4FBF60031C68C /* SoundManager.m */; };
+		48BED40F18D4FF6D0031C68C /* 1.caf in Resources */ = {isa = PBXBuildFile; fileRef = 48BED40A18D4FDFE0031C68C /* 1.caf */; };
+		48BED41018D4FF6D0031C68C /* 2.caf in Resources */ = {isa = PBXBuildFile; fileRef = 48BED40B18D4FDFE0031C68C /* 2.caf */; };
+		48BED41118D4FF6D0031C68C /* 3.caf in Resources */ = {isa = PBXBuildFile; fileRef = 48BED40C18D4FDFE0031C68C /* 3.caf */; };
+		48BED41218D4FF6D0031C68C /* 4.caf in Resources */ = {isa = PBXBuildFile; fileRef = 48BED40D18D4FDFE0031C68C /* 4.caf */; };
+		48BED41318D4FF6D0031C68C /* 5.caf in Resources */ = {isa = PBXBuildFile; fileRef = 48BED40E18D4FDFE0031C68C /* 5.caf */; };
+		48BED41518D503240031C68C /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 48BED41418D503240031C68C /* Settings.bundle */; };
+		48BED41718D508700031C68C /* button.caf in Resources */ = {isa = PBXBuildFile; fileRef = 48BED41618D508670031C68C /* button.caf */; };
+		48BED41918D509A90031C68C /* fail.caf in Resources */ = {isa = PBXBuildFile; fileRef = 48BED41818D509A90031C68C /* fail.caf */; };
+		48CB033118D0176600C5444C /* EFCircularSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 48CB033018D0176600C5444C /* EFCircularSlider.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +93,19 @@
 		48B73F7A18BB1782008B05BB /* FeelingsBaseNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeelingsBaseNavigationController.m; sourceTree = "<group>"; };
 		48B73F7C18BB194A008B05BB /* FeelingsChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeelingsChartViewController.h; sourceTree = "<group>"; };
 		48B73F7D18BB194A008B05BB /* FeelingsChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeelingsChartViewController.m; sourceTree = "<group>"; };
+		48BED40318D4F8950031C68C /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		48BED40718D4FBF60031C68C /* SoundManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundManager.h; sourceTree = "<group>"; };
+		48BED40818D4FBF60031C68C /* SoundManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundManager.m; sourceTree = "<group>"; };
+		48BED40A18D4FDFE0031C68C /* 1.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = 1.caf; sourceTree = "<group>"; };
+		48BED40B18D4FDFE0031C68C /* 2.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = 2.caf; sourceTree = "<group>"; };
+		48BED40C18D4FDFE0031C68C /* 3.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = 3.caf; sourceTree = "<group>"; };
+		48BED40D18D4FDFE0031C68C /* 4.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = 4.caf; sourceTree = "<group>"; };
+		48BED40E18D4FDFE0031C68C /* 5.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = 5.caf; sourceTree = "<group>"; };
+		48BED41418D503240031C68C /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		48BED41618D508670031C68C /* button.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = button.caf; sourceTree = "<group>"; };
+		48BED41818D509A90031C68C /* fail.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = fail.caf; sourceTree = "<group>"; };
+		48CB032F18D0176600C5444C /* EFCircularSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EFCircularSlider.h; sourceTree = "<group>"; };
+		48CB033018D0176600C5444C /* EFCircularSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EFCircularSlider.m; sourceTree = "<group>"; };
 		A37E48711E354053924E775A /* Pods-Feeling.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Feeling.xcconfig"; path = "Pods/Pods-Feeling.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -90,6 +114,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48BED40518D4F8AD0031C68C /* AVFoundation.framework in Frameworks */,
 				487CAEF418BB3E5C00269992 /* CoreData.framework in Frameworks */,
 				489CB03F18BB161C00966E29 /* CoreGraphics.framework in Frameworks */,
 				489CB04118BB161C00966E29 /* UIKit.framework in Frameworks */,
@@ -128,6 +153,8 @@
 			children = (
 				4892175018BB1CA800F0C6EE /* JBChartInformationView.h */,
 				4892175118BB1CA800F0C6EE /* JBChartInformationView.m */,
+				48CB032F18D0176600C5444C /* EFCircularSlider.h */,
+				48CB033018D0176600C5444C /* EFCircularSlider.m */,
 			);
 			path = Misc;
 			sourceTree = "<group>";
@@ -172,6 +199,7 @@
 		489CB03B18BB161C00966E29 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				48BED40318D4F8950031C68C /* AVFoundation.framework */,
 				487CAEF318BB3E5C00269992 /* CoreData.framework */,
 				489CB03C18BB161C00966E29 /* Foundation.framework */,
 				489CB03E18BB161C00966E29 /* CoreGraphics.framework */,
@@ -185,6 +213,7 @@
 		489CB04218BB161C00966E29 /* Feeling */ = {
 			isa = PBXGroup;
 			children = (
+				48BED40618D4FBF60031C68C /* SoundManager */,
 				4892175318BB1CC500F0C6EE /* Footers */,
 				4892175818BB1CC500F0C6EE /* Headers */,
 				4892174F18BB1CA800F0C6EE /* Misc */,
@@ -196,6 +225,7 @@
 				487CAEF518BB3E6F00269992 /* Event.xcdatamodeld */,
 				487CAEF818BB3F2000269992 /* Event.h */,
 				487CAEF918BB3F2000269992 /* Event.m */,
+				48BED41418D503240031C68C /* Settings.bundle */,
 			);
 			path = Feeling;
 			sourceTree = "<group>";
@@ -203,6 +233,13 @@
 		489CB04318BB161C00966E29 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				48BED41818D509A90031C68C /* fail.caf */,
+				48BED41618D508670031C68C /* button.caf */,
+				48BED40A18D4FDFE0031C68C /* 1.caf */,
+				48BED40B18D4FDFE0031C68C /* 2.caf */,
+				48BED40C18D4FDFE0031C68C /* 3.caf */,
+				48BED40D18D4FDFE0031C68C /* 4.caf */,
+				48BED40E18D4FDFE0031C68C /* 5.caf */,
 				4848DFC818BF0F9600FC2FA2 /* arrow-down.png */,
 				486582AF18BC664A0068BD12 /* Jingle.aif */,
 				489CB04418BB161C00966E29 /* Feeling-Info.plist */,
@@ -235,6 +272,15 @@
 				4848DFC618BF050500FC2FA2 /* EventsListController.m */,
 			);
 			name = Controllers;
+			sourceTree = "<group>";
+		};
+		48BED40618D4FBF60031C68C /* SoundManager */ = {
+			isa = PBXGroup;
+			children = (
+				48BED40718D4FBF60031C68C /* SoundManager.h */,
+				48BED40818D4FBF60031C68C /* SoundManager.m */,
+			);
+			path = SoundManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -317,6 +363,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48BED41918D509A90031C68C /* fail.caf in Resources */,
+				48BED41718D508700031C68C /* button.caf in Resources */,
+				48BED40F18D4FF6D0031C68C /* 1.caf in Resources */,
+				48BED41018D4FF6D0031C68C /* 2.caf in Resources */,
+				48BED41518D503240031C68C /* Settings.bundle in Resources */,
+				48BED41118D4FF6D0031C68C /* 3.caf in Resources */,
+				48BED41218D4FF6D0031C68C /* 4.caf in Resources */,
+				48BED41318D4FF6D0031C68C /* 5.caf in Resources */,
 				486582B018BC67FC0068BD12 /* Jingle.aif in Resources */,
 				4848DFC918BF0F9600FC2FA2 /* arrow-down.png in Resources */,
 				489CB04718BB161C00966E29 /* InfoPlist.strings in Resources */,
@@ -372,6 +426,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				487CAEFA18BB3F2100269992 /* Event.m in Sources */,
+				48BED40918D4FBF60031C68C /* SoundManager.m in Sources */,
 				4892175D18BB1CC500F0C6EE /* JBChartHeaderView.m in Sources */,
 				4892175C18BB1CC500F0C6EE /* JBLineChartFooterView.m in Sources */,
 				4892175218BB1CA800F0C6EE /* JBChartInformationView.m in Sources */,
@@ -379,6 +434,7 @@
 				489CB04D18BB161C00966E29 /* AppDelegate.m in Sources */,
 				4848DFC718BF050500FC2FA2 /* EventsListController.m in Sources */,
 				486E6C8718BB3626003B778F /* AddEventViewController.m in Sources */,
+				48CB033118D0176600C5444C /* EFCircularSlider.m in Sources */,
 				48B73F7E18BB194A008B05BB /* FeelingsChartViewController.m in Sources */,
 				487CAEF718BB3E6F00269992 /* Event.xcdatamodeld in Sources */,
 				489CB04918BB161C00966E29 /* main.m in Sources */,

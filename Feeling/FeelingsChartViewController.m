@@ -17,6 +17,7 @@
 
 #import <JBLineChartView.h>
 #import <CRToast.h>
+#import "SoundManager.h"
 
 #define ARC4RANDOM_MAX 0x100000000
 #define UIColorFromHex(hex) [UIColor colorWithRed:((float)((hex & 0xFF0000) >> 16))/255.0 green:((float)((hex & 0xFF00) >> 8))/255.0 blue:((float)(hex & 0xFF))/255.0 alpha:1.0]
@@ -92,9 +93,7 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
         [self.informationView setTextShadowColor:nil];
         [self.informationView setSeparatorColor:kJBColorLineChartHeaderSeparatorColor];
         [self.view addSubview:self.informationView];
-        
-        [self.lineChartView reloadData];
-        
+                
         self.addView = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [self.addView setFrame:CGRectMake(self.view.bounds.origin.x, CGRectGetMaxY(self.lineChartView.frame) + 40, self.view.bounds.size.width, CGRectGetMaxY(self.lineChartView.frame) / 3)];
         [self.addView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
@@ -140,11 +139,6 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
 
 }
 
-- (void)getNewData {
-    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
-    self.fetchedEventsArray = [appDelegate getAllEvents];
-}
-
 - (void)addEvent:(id)sender
 {
     bool alreadyExists = false;
@@ -180,8 +174,26 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
                                   kCRToastAnimationOutDirectionKey : @(CRToastAnimationDirectionRight),
                                   kCRToastNotificationTypeKey : @(CRToastTypeNavigationBar)
                                   };
+        if ([[NSUserDefaults standardUserDefaults] stringForKey:@"Play Sounds"]) {
+            NSString *path = [[NSBundle mainBundle] pathForResource:@"fail" ofType:@"caf"];
+            Sound *sound = [Sound soundNamed:path];
+            
+            SoundManager *manager = [[SoundManager alloc] init];
+            
+            [manager prepareToPlay];
+            [manager playSound:sound];
+        }
         [CRToastManager showNotificationWithOptions:options completionBlock:nil];
     } else {
+        if ([[NSUserDefaults standardUserDefaults] stringForKey:@"Play Sounds"]) {
+            NSString *path = [[NSBundle mainBundle] pathForResource:@"button" ofType:@"caf"];
+            Sound *sound = [Sound soundNamed:path];
+            
+            SoundManager *manager = [[SoundManager alloc] init];
+            
+            [manager prepareToPlay];
+            [manager playSound:sound];
+        }
         AddEventViewController *addEvent = [[AddEventViewController alloc] init];
         [self.navigationController presentViewController:addEvent animated:YES completion:nil];
     }
@@ -192,15 +204,22 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
     [self.lineChartView reloadData];
 }
 
+- (void)getNewData {
+    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+    self.fetchedEventsArray = [appDelegate getAllEvents];
+}
+
+
 - (void)viewDidAppear:(BOOL)animated
 {
-    [self getNewData];
+    [self reloadGraph];
     [super viewDidAppear:animated];
     [self.lineChartView setState:JBChartViewStateExpanded animated:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [self reloadGraph];
     [super viewWillAppear:animated];
 }
 

@@ -16,6 +16,8 @@
 
 #import "Event.h"
 
+#import <CRToast.h>
+
 #ifdef __APPLE__
 #include "TargetConditionals.h"
 #endif
@@ -31,7 +33,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-
+    
     self.pageViewController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationVertical options:nil];
     
     self.navigationController = [[FeelingsBaseNavigationController alloc] initWithRootViewController:[[FeelingsChartViewController alloc] init]];
@@ -39,9 +41,6 @@
     [self.pageViewController setViewControllers:@[self.navigationController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
     
     self.pageViewController.dataSource = self.navigationController;
-    
-    // For Testing
-//    [self insertTestData];
     
     self.window.rootViewController = self.pageViewController;
     [self.window makeKeyAndVisible];
@@ -57,6 +56,7 @@
         // For testing notification settings
         [application cancelAllLocalNotifications];
     }
+
     if (application.scheduledLocalNotifications.count == 0) {
         UILocalNotification *notification = [[UILocalNotification alloc] init];
         notification.repeatInterval = NSDayCalendarUnit;
@@ -68,23 +68,20 @@
         [application scheduleLocalNotification:notification];
     }
     
-    if (self.getAllEvents.count == 0) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Welcome to Feeling"
-                                                        message:@"Add your first entry with the add button below. Since you will only have one entry, the graph will appear blank until you come back tomorrow!"
-                                                       delegate:self
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        [alert show];
-    } else if (self.getAllEvents.count == 1) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Single entry"
-                                                        message:@"You've only added one entry, so your graph is empty. Come back tomorrow!"
-                                                       delegate:self
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        [alert show];
+    if (self.getAllEvents.count == 1) {
+        [self showSingleEntryAlert];
     }
     
     return YES;
+}
+
+- (void)showSingleEntryAlert {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Single entry"
+                                                    message:@"You've only added one entry, so your graph is empty. Come back tomorrow!"
+                                                   delegate:self
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+    [alert show];
 }
 
 - (NSManagedObjectContext *) managedObjectContext {
@@ -195,25 +192,6 @@
     EventsListController *listController = [[EventsListController alloc] initWithStyle:UITableViewStylePlain];
 
     return listController;
-}
-
-- (void)insertTestData {
-    int i;
-    for (i=0; i < 10; i = i + 1) {
-        Event *newEvent = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
-                                                        inManagedObjectContext:self.managedObjectContext];
-        int max = 100;
-        int min = 0;
-        int randomNumber = min + arc4random() % (max-min);
-        newEvent.timestamp = [NSDate dateWithTimeIntervalSinceNow:-1209600.0 + (randomNumber * 100)];
-        newEvent.rating = [NSNumber numberWithInt:randomNumber];
-        NSError *error;
-        NSLog(@"new event");
-        if (![self.managedObjectContext save:&error]) {
-            NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
-        }
-    }
-
 }
 
 @end

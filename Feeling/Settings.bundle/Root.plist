@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PreferenceSpecifiers</key>
+	<array>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>Settings</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Play Sounds</string>
+			<key>Key</key>
+			<string>Play Sounds</string>
+			<key>DefaultValue</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Application Info</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>FooterText</key>
+			<string>Created by Kristian Freeman. Thanks to the &apos;JBChartView&apos;, &apos;EFCircularSlider&apos;, and &apos;Colours&apos; OSS libraries. Logo: &apos;Person&apos; icon designed by Catherine Please from the Noun Project, used with the CC BY 3.0 US license. Questions? @imkmf on Twitter. &lt;3</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTitleValueSpecifier</string>
+			<key>Title</key>
+			<string>Debug Identifier</string>
+			<key>Key</key>
+			<string>Debug Identifier</string>
+			<key>DefaultValue</key>
+			<string>1.0.0</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTitleValueSpecifier</string>
+			<key>Title</key>
+			<string>Version</string>
+			<key>Key</key>
+			<string>Version</string>
+			<key>DefaultValue</key>
+			<string>1.0.0</string>
+		</dict>
+	</array>
+	<key>StringsTable</key>
+	<string>Root</string>
+</dict>
+</plist>

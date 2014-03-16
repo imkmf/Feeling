@@ -40,27 +40,12 @@ static UIColor *kJBChartHeaderViewDefaultSeparatorColor = nil;
     {
         self.backgroundColor = [UIColor clearColor];
         
-        _titleLabel = [[UILabel alloc] init];
-        _titleLabel.numberOfLines = 1;
-        _titleLabel.adjustsFontSizeToFitWidth = YES;
-        _titleLabel.textAlignment = NSTextAlignmentCenter;
+        _titleLabel = [self createLabel];
         _titleLabel.font = kJBFontHeaderTitle;
-        _titleLabel.textColor = [UIColor whiteColor];
-        _titleLabel.shadowColor = [UIColor blackColor];
-        _titleLabel.shadowOffset = CGSizeMake(0, 1);
-        _titleLabel.backgroundColor = [UIColor clearColor];
-        
         [self addSubview:_titleLabel];
         
-        _subtitleLabel = [[UILabel alloc] init];
-        _subtitleLabel.numberOfLines = 1;
-        _subtitleLabel.adjustsFontSizeToFitWidth = YES;
+        _subtitleLabel = [self createLabel];
         _subtitleLabel.font = kJBFontHeaderSubtitle;
-        _subtitleLabel.textAlignment = NSTextAlignmentCenter;
-        _subtitleLabel.textColor = [UIColor whiteColor];
-        _subtitleLabel.shadowColor = [UIColor blackColor];
-        _subtitleLabel.shadowOffset = CGSizeMake(0, 1);
-        _subtitleLabel.backgroundColor = [UIColor clearColor];
         [self addSubview:_subtitleLabel];
         
         _separatorView = [[UIView alloc] init];
@@ -68,6 +53,19 @@ static UIColor *kJBChartHeaderViewDefaultSeparatorColor = nil;
         [self addSubview:_separatorView];
     }
     return self;
+}
+
+- (UILabel *)createLabel {
+    UILabel *label = [[UILabel alloc] init];
+    label.numberOfLines = 1;
+    label.adjustsFontSizeToFitWidth = YES;
+    label.textAlignment = NSTextAlignmentCenter;
+    label.textColor = [UIColor whiteColor];
+    label.shadowColor = [UIColor blackColor];
+    label.shadowOffset = CGSizeMake(0, 1);
+    label.backgroundColor = [UIColor clearColor];
+    
+    return label;
 }
 
 #pragma mark - Setters

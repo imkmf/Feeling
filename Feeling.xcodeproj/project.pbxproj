@@ -70,12 +70,12 @@
 		4892174C18BB1C6000F0C6EE /* JBFontConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JBFontConstants.h; sourceTree = "<group>"; };
 		4892174D18BB1C6000F0C6EE /* JBStringConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JBStringConstants.h; sourceTree = "<group>"; };
 		4892174E18BB1C6000F0C6EE /* JBUIConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JBUIConstants.h; sourceTree = "<group>"; };
-		4892175018BB1CA800F0C6EE /* JBChartInformationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBChartInformationView.h; sourceTree = "<group>"; };
-		4892175118BB1CA800F0C6EE /* JBChartInformationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBChartInformationView.m; sourceTree = "<group>"; };
-		4892175618BB1CC500F0C6EE /* JBLineChartFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBLineChartFooterView.h; sourceTree = "<group>"; };
-		4892175718BB1CC500F0C6EE /* JBLineChartFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBLineChartFooterView.m; sourceTree = "<group>"; };
-		4892175918BB1CC500F0C6EE /* JBChartHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBChartHeaderView.h; sourceTree = "<group>"; };
-		4892175A18BB1CC500F0C6EE /* JBChartHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBChartHeaderView.m; sourceTree = "<group>"; };
+		4892175018BB1CA800F0C6EE /* JBChartInformationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JBChartInformationView.h; path = Misc/JBChartInformationView.h; sourceTree = "<group>"; };
+		4892175118BB1CA800F0C6EE /* JBChartInformationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JBChartInformationView.m; path = Misc/JBChartInformationView.m; sourceTree = "<group>"; };
+		4892175618BB1CC500F0C6EE /* JBLineChartFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JBLineChartFooterView.h; path = Footers/JBLineChartFooterView.h; sourceTree = "<group>"; };
+		4892175718BB1CC500F0C6EE /* JBLineChartFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JBLineChartFooterView.m; path = Footers/JBLineChartFooterView.m; sourceTree = "<group>"; };
+		4892175918BB1CC500F0C6EE /* JBChartHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JBChartHeaderView.h; path = Headers/JBChartHeaderView.h; sourceTree = "<group>"; };
+		4892175A18BB1CC500F0C6EE /* JBChartHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JBChartHeaderView.m; path = Headers/JBChartHeaderView.m; sourceTree = "<group>"; };
 		489CB03918BB161C00966E29 /* Feeling.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Feeling.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		489CB03C18BB161C00966E29 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		489CB03E18BB161C00966E29 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -94,8 +94,8 @@
 		48B73F7C18BB194A008B05BB /* FeelingsChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeelingsChartViewController.h; sourceTree = "<group>"; };
 		48B73F7D18BB194A008B05BB /* FeelingsChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeelingsChartViewController.m; sourceTree = "<group>"; };
 		48BED40318D4F8950031C68C /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		48BED40718D4FBF60031C68C /* SoundManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundManager.h; sourceTree = "<group>"; };
-		48BED40818D4FBF60031C68C /* SoundManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundManager.m; sourceTree = "<group>"; };
+		48BED40718D4FBF60031C68C /* SoundManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoundManager.h; path = SoundManager/SoundManager.h; sourceTree = "<group>"; };
+		48BED40818D4FBF60031C68C /* SoundManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SoundManager.m; path = SoundManager/SoundManager.m; sourceTree = "<group>"; };
 		48BED40A18D4FDFE0031C68C /* 1.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = 1.caf; sourceTree = "<group>"; };
 		48BED40B18D4FDFE0031C68C /* 2.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = 2.caf; sourceTree = "<group>"; };
 		48BED40C18D4FDFE0031C68C /* 3.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = 3.caf; sourceTree = "<group>"; };
@@ -104,8 +104,8 @@
 		48BED41418D503240031C68C /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		48BED41618D508670031C68C /* button.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = button.caf; sourceTree = "<group>"; };
 		48BED41818D509A90031C68C /* fail.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = fail.caf; sourceTree = "<group>"; };
-		48CB032F18D0176600C5444C /* EFCircularSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EFCircularSlider.h; sourceTree = "<group>"; };
-		48CB033018D0176600C5444C /* EFCircularSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EFCircularSlider.m; sourceTree = "<group>"; };
+		48CB032F18D0176600C5444C /* EFCircularSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EFCircularSlider.h; path = Misc/EFCircularSlider.h; sourceTree = "<group>"; };
+		48CB033018D0176600C5444C /* EFCircularSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EFCircularSlider.m; path = Misc/EFCircularSlider.m; sourceTree = "<group>"; };
 		A37E48711E354053924E775A /* Pods-Feeling.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Feeling.xcconfig"; path = "Pods/Pods-Feeling.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -148,35 +148,6 @@
 			name = Constants;
 			sourceTree = "<group>";
 		};
-		4892174F18BB1CA800F0C6EE /* Misc */ = {
-			isa = PBXGroup;
-			children = (
-				4892175018BB1CA800F0C6EE /* JBChartInformationView.h */,
-				4892175118BB1CA800F0C6EE /* JBChartInformationView.m */,
-				48CB032F18D0176600C5444C /* EFCircularSlider.h */,
-				48CB033018D0176600C5444C /* EFCircularSlider.m */,
-			);
-			path = Misc;
-			sourceTree = "<group>";
-		};
-		4892175318BB1CC500F0C6EE /* Footers */ = {
-			isa = PBXGroup;
-			children = (
-				4892175618BB1CC500F0C6EE /* JBLineChartFooterView.h */,
-				4892175718BB1CC500F0C6EE /* JBLineChartFooterView.m */,
-			);
-			path = Footers;
-			sourceTree = "<group>";
-		};
-		4892175818BB1CC500F0C6EE /* Headers */ = {
-			isa = PBXGroup;
-			children = (
-				4892175918BB1CC500F0C6EE /* JBChartHeaderView.h */,
-				4892175A18BB1CC500F0C6EE /* JBChartHeaderView.m */,
-			);
-			path = Headers;
-			sourceTree = "<group>";
-		};
 		489CB03018BB161C00966E29 = {
 			isa = PBXGroup;
 			children = (
@@ -213,19 +184,14 @@
 		489CB04218BB161C00966E29 /* Feeling */ = {
 			isa = PBXGroup;
 			children = (
-				48BED40618D4FBF60031C68C /* SoundManager */,
-				4892175318BB1CC500F0C6EE /* Footers */,
-				4892175818BB1CC500F0C6EE /* Headers */,
-				4892174F18BB1CA800F0C6EE /* Misc */,
+				48F8C87A18D6431400D8582C /* Views */,
+				48F8C87518D63BB200D8582C /* Models */,
+				48F8C87618D63BC600D8582C /* External Libraries */,
 				4892174918BB1C3F00F0C6EE /* Constants */,
 				48B73F7718BB1749008B05BB /* Controllers */,
 				48B73F7618BB171B008B05BB /* Delegate */,
 				489CB04E18BB161C00966E29 /* Images.xcassets */,
 				489CB04318BB161C00966E29 /* Supporting Files */,
-				487CAEF518BB3E6F00269992 /* Event.xcdatamodeld */,
-				487CAEF818BB3F2000269992 /* Event.h */,
-				487CAEF918BB3F2000269992 /* Event.m */,
-				48BED41418D503240031C68C /* Settings.bundle */,
 			);
 			path = Feeling;
 			sourceTree = "<group>";
@@ -233,15 +199,10 @@
 		489CB04318BB161C00966E29 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				48BED41818D509A90031C68C /* fail.caf */,
-				48BED41618D508670031C68C /* button.caf */,
-				48BED40A18D4FDFE0031C68C /* 1.caf */,
-				48BED40B18D4FDFE0031C68C /* 2.caf */,
-				48BED40C18D4FDFE0031C68C /* 3.caf */,
-				48BED40D18D4FDFE0031C68C /* 4.caf */,
-				48BED40E18D4FDFE0031C68C /* 5.caf */,
+				487CAEF518BB3E6F00269992 /* Event.xcdatamodeld */,
+				48BED41418D503240031C68C /* Settings.bundle */,
+				48F8C87418D63BA200D8582C /* Sounds */,
 				4848DFC818BF0F9600FC2FA2 /* arrow-down.png */,
-				486582AF18BC664A0068BD12 /* Jingle.aif */,
 				489CB04418BB161C00966E29 /* Feeling-Info.plist */,
 				489CB04518BB161C00966E29 /* InfoPlist.strings */,
 				489CB04818BB161C00966E29 /* main.m */,
@@ -274,13 +235,52 @@
 			name = Controllers;
 			sourceTree = "<group>";
 		};
-		48BED40618D4FBF60031C68C /* SoundManager */ = {
+		48F8C87418D63BA200D8582C /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				48BED41818D509A90031C68C /* fail.caf */,
+				48BED41618D508670031C68C /* button.caf */,
+				48BED40A18D4FDFE0031C68C /* 1.caf */,
+				48BED40B18D4FDFE0031C68C /* 2.caf */,
+				48BED40C18D4FDFE0031C68C /* 3.caf */,
+				48BED40D18D4FDFE0031C68C /* 4.caf */,
+				48BED40E18D4FDFE0031C68C /* 5.caf */,
+				486582AF18BC664A0068BD12 /* Jingle.aif */,
+			);
+			name = Sounds;
+			sourceTree = "<group>";
+		};
+		48F8C87518D63BB200D8582C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				487CAEF818BB3F2000269992 /* Event.h */,
+				487CAEF918BB3F2000269992 /* Event.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		48F8C87618D63BC600D8582C /* External Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				48CB032F18D0176600C5444C /* EFCircularSlider.h */,
+				48CB033018D0176600C5444C /* EFCircularSlider.m */,
 				48BED40718D4FBF60031C68C /* SoundManager.h */,
 				48BED40818D4FBF60031C68C /* SoundManager.m */,
 			);
-			path = SoundManager;
+			name = "External Libraries";
+			sourceTree = "<group>";
+		};
+		48F8C87A18D6431400D8582C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				4892175918BB1CC500F0C6EE /* JBChartHeaderView.h */,
+				4892175A18BB1CC500F0C6EE /* JBChartHeaderView.m */,
+				4892175618BB1CC500F0C6EE /* JBLineChartFooterView.h */,
+				4892175718BB1CC500F0C6EE /* JBLineChartFooterView.m */,
+				4892175018BB1CA800F0C6EE /* JBChartInformationView.h */,
+				4892175118BB1CA800F0C6EE /* JBChartInformationView.m */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

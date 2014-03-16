@@ -11,6 +11,7 @@
 #import "JBChartHeaderView.h"
 #import "JBLineChartFooterView.h"
 #import "AddEventViewController.h"
+#import "EventsListController.h"
 
 #import "AppDelegate.h"
 #import "Event.h"
@@ -19,16 +20,11 @@
 #import <CRToast.h>
 #import "SoundManager.h"
 
-#define ARC4RANDOM_MAX 0x100000000
-#define UIColorFromHex(hex) [UIColor colorWithRed:((float)((hex & 0xFF0000) >> 16))/255.0 green:((float)((hex & 0xFF00) >> 8))/255.0 blue:((float)(hex & 0xFF))/255.0 alpha:1.0]
-
-#define isiPhone5  ([[UIScreen mainScreen] bounds].size.height == 568)?TRUE:FALSE
-
 // Numerics
-CGFloat const kJBLineChartViewControllerChartHeight = 250.0f;
-CGFloat const kJBLineChartViewControllerChartHeaderHeight = 60.0f;
-CGFloat const kJBLineChartViewControllerChartHeaderPadding = 20.0f;
-CGFloat const kJBLineChartViewControllerChartFooterHeight = 20.0f;
+#define kJBLineChartViewControllerChartHeight 250.0f
+#define kJBLineChartViewControllerChartHeaderHeight 60.0f
+#define kJBLineChartViewControllerChartHeaderPadding 20.0f
+#define kJBLineChartViewControllerChartFooterHeight 20.0f
 
 // Strings
 NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
@@ -63,8 +59,6 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
     self.edgesForExtendedLayout = UIRectEdgeTop;
     self.view.backgroundColor = [UIColor robinEggColor];
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
-
-    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
     
     if (self.fetchedEventsArray.count > 1) {
         
@@ -118,16 +112,11 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
         [self.addView addTarget:self action:@selector(addEvent:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:self.addView];
         
-        int mod = 0;
-        if (isiPhone5) {
-            mod = 180;
-        } else {
-            mod = 130;
-        }
+        int mod = (isiPhone5) ? mod = 180 : 130;
         UIButton *arrow = [[UIButton alloc] initWithFrame:CGRectMake(135, CGRectGetMaxY(self.lineChartView.frame) + mod, 50, 50)];
         [arrow setImage:[UIImage imageNamed:@"arrow-down.png"] forState:UIControlStateNormal];
         arrow.alpha = 0.5;
-        [arrow addTarget:appDelegate action:@selector(toTable) forControlEvents:UIControlEventTouchUpInside];
+        [arrow addTarget:self action:@selector(toTable) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:arrow];
     } else {
         UILabel *introLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 200, self.view.bounds.size.width, 80)];
@@ -282,6 +271,21 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
     [UIView commitAnimations];
     [self.informationView setHidden:YES animated:YES];
 }
+
+- (void)toTable {
+    EventsListController *listController = [[EventsListController alloc] initWithStyle:UITableViewStylePlain];
+    [self turnPage:listController direction:UIPageViewControllerNavigationDirectionForward];
+}
+
+- (void)goBack {
+    [self turnPage:self direction:UIPageViewControllerNavigationDirectionReverse];
+}
+
+- (void)turnPage:(id)controller direction:(UIPageViewControllerNavigationDirection)direction {
+    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+    [appDelegate.pageViewController setViewControllers:@[controller] direction:direction animated:YES completion:nil];
+}
+
 
 #pragma mark - JBLineChartViewDataSource
 

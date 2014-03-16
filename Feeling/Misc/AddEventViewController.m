@@ -14,8 +14,6 @@
 #import "EFCircularSlider.h"
 #import <CRToast.h>
 
-#define isiPhone5  ([[UIScreen mainScreen] bounds].size.height == 568)?TRUE:FALSE
-
 @interface AddEventViewController ()
 @property (nonatomic, assign) BOOL changed;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
@@ -45,7 +43,6 @@
 }
                                       
 - (void)willSave {
-    NSNumber *rounded = [NSNumber numberWithInt:(int)self.slider.currentValue];
     NSDate *date = [NSDate date];
     Event *newEvent = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
                                                       inManagedObjectContext:self.managedObjectContext];
@@ -69,9 +66,7 @@
                               kCRToastNotificationTypeKey : @(CRToastTypeNavigationBar)
                               };
     [CRToastManager showNotificationWithOptions:options completionBlock:nil];
-    
-    NSArray *notifications = [[UIApplication sharedApplication] scheduledLocalNotifications];
-    
+        
     [self dismissNow];
 }
 
@@ -85,16 +80,11 @@
 
 - (void)viewDidLoad
 {
-    int y = 0;
-    if (isiPhone5) {
-        y = 150;
-        
-    } else {
-        y = 120;
-    }
+    int y = (isiPhone5) ? 150 : 120;
+    
     CGRect sliderFrame = CGRectMake(60, y, 200, 200);
     self.slider = [[EFCircularSlider alloc] initWithFrame:sliderFrame];
-    self.slider.labelFont = [UIFont systemFontOfSize:28.0f];
+    self.slider.labelFont = [UIFont systemFontOfSize:28];
     [self.slider addTarget:self action:@selector(valueChanged:) forControlEvents:UIControlEventValueChanged];
     [self.slider setLineWidth:20];
     [self.view addSubview:self.slider];
@@ -159,36 +149,12 @@
 }
 
 - (void)showButtons {
-    int y = 0;
-    if (isiPhone5) {
-        y = 420;
-    } else {
-        y = 340;
-    }
-    UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [cancelButton setFrame:CGRectMake(0, y, 160, 120)];
-    [cancelButton setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
-    
-    [cancelButton.titleLabel setFont:[UIFont systemFontOfSize:60]];
-    [cancelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [cancelButton setBackgroundColor:[UIColor salmonColor]];
-    [cancelButton setTitle:@"x" forState:UIControlStateNormal];
-    [cancelButton.titleLabel setTextAlignment: NSTextAlignmentCenter];
-    [cancelButton setAlpha:0.0];
-    [cancelButton addTarget:self action:@selector(willCancel) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIButton *addButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [addButton setFrame:CGRectMake(160, y, 160, 120)];
-    [addButton setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
-    
-    [addButton.titleLabel setFont:[UIFont systemFontOfSize:60]];
-    [addButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [addButton setBackgroundColor:[UIColor pastelGreenColor]];
-    [addButton setTitle:@"+" forState:UIControlStateNormal];
-    [addButton.titleLabel setTextAlignment: NSTextAlignmentCenter];
-    [addButton setAlpha:0.0];
+    UIButton* addButton = [self createButtonWithText:@"+" WithX:160 WithColor:[UIColor pastelGreenColor]];
     [addButton addTarget:self action:@selector(willSave) forControlEvents:UIControlEventTouchUpInside];
-    
+
+    UIButton* cancelButton = [self createButtonWithText:@"x" WithX:0 WithColor:[UIColor salmonColor]];
+    [cancelButton addTarget:self action:@selector(willCancel) forControlEvents:UIControlEventTouchUpInside];
+
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.3];
     [cancelButton setAlpha:1.0];
@@ -196,6 +162,21 @@
     [self.view addSubview:cancelButton];
     [self.view addSubview:addButton];
     [UIView commitAnimations];
+}
+
+- (UIButton *)createButtonWithText:(NSString *)text WithX:(int)x WithColor:(UIColor *)color {
+    int y = (isiPhone5) ? 420 : 340;
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [button setFrame:CGRectMake(x, y, 160, 120)];
+    [button setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
+    
+    [button.titleLabel setFont:[UIFont systemFontOfSize:60]];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [button setBackgroundColor:color];
+    [button setTitle:text forState:UIControlStateNormal];
+    [button.titleLabel setTextAlignment: NSTextAlignmentCenter];
+    [button setAlpha:0.0];
+    return button;
 }
 
 - (void)didReceiveMemoryWarning

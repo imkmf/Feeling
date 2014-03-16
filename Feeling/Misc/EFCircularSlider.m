@@ -5,6 +5,8 @@
 //  Created by Eliot Fowler on 12/3/13.
 //  Copyright (c) 2013 Eliot Fowler. All rights reserved.
 //
+//  Edited by Kristian Freeman for Feeling.app.
+//  I should have done a better job documenting those edits.
 
 #import "EFCircularSlider.h"
 #import <QuartzCore/QuartzCore.h>

@@ -10,5 +10,5 @@
 
 
 @interface FeelingsChartViewController : UIViewController
-
+- (void)goBack;
 @end

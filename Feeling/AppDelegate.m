@@ -71,7 +71,7 @@
     if (self.getAllEvents.count == 1) {
         [self showSingleEntryAlert];
     }
-    
+//    [self insertTestData];
     return YES;
 }
 
@@ -192,6 +192,25 @@
     EventsListController *listController = [[EventsListController alloc] initWithStyle:UITableViewStylePlain];
 
     return listController;
+}
+
+- (void)insertTestData {
+    int i;
+    for (i=0; i < 10; i = i + 1) {
+        Event *newEvent = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
+                                                        inManagedObjectContext:self.managedObjectContext];
+        int max = 5;
+        int min = 0;
+        int randomNumber = min + arc4random() % (max-min);
+        newEvent.timestamp = [NSDate dateWithTimeIntervalSinceNow:-1209600.0 + (randomNumber * 100)];
+        newEvent.rating = [NSNumber numberWithInt:randomNumber];
+        NSError *error;
+        NSLog(@"new event");
+        if (![self.managedObjectContext save:&error]) {
+            NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
+        }
+    }
+    
 }
 
 @end

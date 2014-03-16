@@ -14,6 +14,8 @@
 #import "EFCircularSlider.h"
 #import <CRToast.h>
 
+#define isiPhone5  ([[UIScreen mainScreen] bounds].size.height == 568)?TRUE:FALSE
+
 @interface AddEventViewController ()
 @property (nonatomic, assign) BOOL changed;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
@@ -83,7 +85,14 @@
 
 - (void)viewDidLoad
 {
-    CGRect sliderFrame = CGRectMake(60, 150, 200, 200);
+    int y = 0;
+    if (isiPhone5) {
+        y = 150;
+        
+    } else {
+        y = 120;
+    }
+    CGRect sliderFrame = CGRectMake(60, y, 200, 200);
     self.slider = [[EFCircularSlider alloc] initWithFrame:sliderFrame];
     self.slider.labelFont = [UIFont systemFontOfSize:28.0f];
     [self.slider addTarget:self action:@selector(valueChanged:) forControlEvents:UIControlEventValueChanged];
@@ -99,7 +108,7 @@
     [introText setTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:introText];
     
-    self.ratingLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 190, 120, 120)];
+    self.ratingLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, y + 40, 120, 120)];
     self.ratingLabel.text = @"?";
     [self.ratingLabel setFont:[UIFont boldSystemFontOfSize:40]];
     [self.ratingLabel setTextColor:[UIColor whiteColor]];
@@ -150,8 +159,14 @@
 }
 
 - (void)showButtons {
+    int y = 0;
+    if (isiPhone5) {
+        y = 420;
+    } else {
+        y = 340;
+    }
     UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [cancelButton setFrame:CGRectMake(0, 420, 160, 120)];
+    [cancelButton setFrame:CGRectMake(0, y, 160, 120)];
     [cancelButton setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
     
     [cancelButton.titleLabel setFont:[UIFont systemFontOfSize:60]];
@@ -163,7 +178,7 @@
     [cancelButton addTarget:self action:@selector(willCancel) forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *addButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [addButton setFrame:CGRectMake(160, 420, 160, 120)];
+    [addButton setFrame:CGRectMake(160, y, 160, 120)];
     [addButton setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
     
     [addButton.titleLabel setFont:[UIFont systemFontOfSize:60]];

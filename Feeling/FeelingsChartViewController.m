@@ -22,6 +22,8 @@
 #define ARC4RANDOM_MAX 0x100000000
 #define UIColorFromHex(hex) [UIColor colorWithRed:((float)((hex & 0xFF0000) >> 16))/255.0 green:((float)((hex & 0xFF00) >> 8))/255.0 blue:((float)(hex & 0xFF))/255.0 alpha:1.0]
 
+#define isiPhone5  ([[UIScreen mainScreen] bounds].size.height == 568)?TRUE:FALSE
+
 // Numerics
 CGFloat const kJBLineChartViewControllerChartHeight = 250.0f;
 CGFloat const kJBLineChartViewControllerChartHeaderHeight = 60.0f;
@@ -66,7 +68,11 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
     
     if (self.fetchedEventsArray.count > 1) {
         
-        self.lineChartView = [[JBLineChartView alloc] initWithFrame:CGRectMake(kJBNumericDefaultPadding, kJBNumericDefaultPadding + 20, self.view.bounds.size.width - (kJBNumericDefaultPadding * 2), kJBLineChartViewControllerChartHeight)];
+        if (isiPhone5) {
+            self.lineChartView = [[JBLineChartView alloc] initWithFrame:CGRectMake(kJBNumericDefaultPadding, kJBNumericDefaultPadding + 20, self.view.bounds.size.width - (kJBNumericDefaultPadding * 2), kJBLineChartViewControllerChartHeight)];
+        } else {
+            self.lineChartView = [[JBLineChartView alloc] initWithFrame:CGRectMake(kJBNumericDefaultPadding, kJBNumericDefaultPadding, self.view.bounds.size.width - (kJBNumericDefaultPadding * 2), kJBLineChartViewControllerChartHeight)];
+        }
         self.lineChartView.delegate = self;
         self.lineChartView.dataSource = self;
         self.lineChartView.headerPadding = kJBLineChartViewControllerChartHeaderPadding;
@@ -95,7 +101,12 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
         [self.view addSubview:self.informationView];
                 
         self.addView = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [self.addView setFrame:CGRectMake(self.view.bounds.origin.x, CGRectGetMaxY(self.lineChartView.frame) + 40, self.view.bounds.size.width, CGRectGetMaxY(self.lineChartView.frame) / 3)];
+        if (isiPhone5) {
+            [self.addView setFrame:CGRectMake(self.view.bounds.origin.x, CGRectGetMaxY(self.lineChartView.frame) + 40, self.view.bounds.size.width, CGRectGetMaxY(self.lineChartView.frame) / 3)];
+        } else {
+            [self.addView setFrame:CGRectMake(self.view.bounds.origin.x, CGRectGetMaxY(self.lineChartView.frame) + 20, self.view.bounds.size.width, CGRectGetMaxY(self.lineChartView.frame) / 3)];
+        }
+
         [self.addView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
         
         [self.addView.titleLabel setFont:[UIFont systemFontOfSize:60]];
@@ -107,7 +118,13 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
         [self.addView addTarget:self action:@selector(addEvent:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:self.addView];
         
-        UIButton *arrow = [[UIButton alloc] initWithFrame:CGRectMake(135, CGRectGetMaxY(self.lineChartView.frame) + 180, 50, 50)];
+        int mod = 0;
+        if (isiPhone5) {
+            mod = 180;
+        } else {
+            mod = 130;
+        }
+        UIButton *arrow = [[UIButton alloc] initWithFrame:CGRectMake(135, CGRectGetMaxY(self.lineChartView.frame) + mod, 50, 50)];
         [arrow setImage:[UIImage imageNamed:@"arrow-down.png"] forState:UIControlStateNormal];
         arrow.alpha = 0.5;
         [arrow addTarget:appDelegate action:@selector(toTable) forControlEvents:UIControlEventTouchUpInside];
@@ -121,7 +138,12 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
         [self.view addSubview:introLabel];
         
         self.addView = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [self.addView setFrame:CGRectMake(self.view.bounds.origin.x, 400, self.view.bounds.size.width, 80)];
+        if (isiPhone5) {
+            [self.addView setFrame:CGRectMake(self.view.bounds.origin.x, 400, self.view.bounds.size.width, 80)];
+        } else {
+            [self.addView setFrame:CGRectMake(self.view.bounds.origin.x, 300, self.view.bounds.size.width, 80)];
+        }
+
         [self.addView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
         
         [self.addView.titleLabel setFont:[UIFont systemFontOfSize:60]];

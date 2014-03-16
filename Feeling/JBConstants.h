@@ -10,3 +10,5 @@
 #import "JBUIConstants.h"
 #import "JBColorConstants.h"
 #import "JBFontConstants.h"
+
+#define isiPhone5 ([[UIScreen mainScreen] bounds].size.height == 568)? TRUE : FALSE

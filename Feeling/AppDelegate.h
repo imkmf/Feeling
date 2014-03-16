@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "FeelingsBaseNavigationController.h"
 
+#import <HockeySDK.h>
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
@@ -19,6 +21,5 @@
 @property (strong, nonatomic) FeelingsBaseNavigationController *navigationController;
 
 -(NSArray*) getAllEvents;
--(void) goBack;
 
 @end

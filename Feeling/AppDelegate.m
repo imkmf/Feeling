@@ -46,7 +46,7 @@
     [self.window makeKeyAndVisible];
     
     if (!TARGET_IPHONE_SIMULATOR) {
-        [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"1649200acbc9eacb3becf09ca3a95d20" delegate:self];
+        [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"1649200acbc9eacb3becf09ca3a95d20"];
         [[BITHockeyManager sharedHockeyManager].authenticator setIdentificationType:BITAuthenticatorIdentificationTypeDevice];
         [[BITHockeyManager sharedHockeyManager] startManager];
         [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
@@ -95,19 +95,6 @@
     }
     
     return _managedObjectContext;
-}
-
-- (void)toTable {
-    EventsListController *listController = [[EventsListController alloc] initWithStyle:UITableViewStylePlain];
-    [self turnPage:listController direction:UIPageViewControllerNavigationDirectionForward];
-}
-
-- (void)goBack {
-    [self turnPage:self.navigationController direction:UIPageViewControllerNavigationDirectionReverse];
-}
-
-- (void)turnPage:(id)controller direction:(UIPageViewControllerNavigationDirection)direction {
-    [self.pageViewController setViewControllers:@[controller] direction:direction animated:YES completion:nil];
 }
 
 - (NSManagedObjectModel *)managedObjectModel {
@@ -171,27 +158,6 @@
     
     /* Your own custom URL handlers */
     return NO;
-}
-
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
-    
-    if ([viewController isKindOfClass:[FeelingsBaseNavigationController class]])
-        return nil;
-    
-    FeelingsBaseNavigationController *navigationController = [[FeelingsBaseNavigationController alloc] initWithRootViewController:[[FeelingsChartViewController alloc] init]];
-    
-    return navigationController;
-    
-}
-
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController
-{
-    if ([viewController isKindOfClass:[UITableViewController class]])
-        return nil;
-        
-    EventsListController *listController = [[EventsListController alloc] initWithStyle:UITableViewStylePlain];
-
-    return listController;
 }
 
 - (void)insertTestData {

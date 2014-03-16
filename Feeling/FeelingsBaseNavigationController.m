@@ -7,8 +7,8 @@
 //
 
 #import "FeelingsBaseNavigationController.h"
-
-#import <MYBlurIntroductionView.h>
+#import "FeelingsChartViewController.h"
+#import "EventsListController.h"
 
 @implementation FeelingsBaseNavigationController
 
@@ -63,6 +63,28 @@
         
     }
     return self;
+}
+
+
+- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
+    
+    if ([viewController isKindOfClass:[FeelingsBaseNavigationController class]])
+        return nil;
+    
+    FeelingsBaseNavigationController *navigationController = [[FeelingsBaseNavigationController alloc] initWithRootViewController:[[FeelingsChartViewController alloc] init]];
+    
+    return navigationController;
+    
+}
+
+- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController
+{
+    if ([viewController isKindOfClass:[UITableViewController class]])
+        return nil;
+    
+    EventsListController *listController = [[EventsListController alloc] initWithStyle:UITableViewStylePlain];
+    
+    return listController;
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle{

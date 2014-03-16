@@ -7,6 +7,7 @@
 //
 
 #import "EventsListController.h"
+#import "FeelingsChartViewController.h"
 #import "AppDelegate.h"
 #import "Event.h"
 
@@ -73,12 +74,7 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self back];
+    FeelingsChartViewController *chart = [[FeelingsChartViewController alloc] init];
+    [chart goBack];
 }
-
-- (void)back {
-    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
-    [appDelegate goBack];
-}
-
 @end

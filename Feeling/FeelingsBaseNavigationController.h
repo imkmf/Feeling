@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MYBlurIntroductionView.h>
 
-@interface FeelingsBaseNavigationController : UINavigationController
+@interface FeelingsBaseNavigationController : UINavigationController <MYIntroductionDelegate, UIPageViewControllerDataSource>
 
 @end

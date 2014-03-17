@@ -13,17 +13,31 @@
 #import "SoundManager.h"
 #import "EFCircularSlider.h"
 #import <CRToast.h>
+#import "UIImage+Color.h"
 
-@interface AddEventViewController ()
+@interface AddEventViewController () <UITextViewDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate>
 @property (nonatomic, assign) BOOL changed;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) UILabel *ratingLabel;
 
 @property (nonatomic, retain) EFCircularSlider *slider;
 
+@property (nonatomic, retain) NSString *eventNote;
+
 @property (nonatomic, retain) NSArray *colorScheme;
 @property (nonatomic, retain) NSNumber *number;
 @property (nonatomic, retain) SoundManager *manager;
+
+@property (nonatomic, retain) UIButton *addButton;
+@property (nonatomic, retain) UIButton *cancelButton;
+@property (nonatomic, retain) UIButton *cameraButton;
+
+@property (nonatomic, retain) UILabel *noteHintLabel;
+@property (nonatomic, assign) BOOL infoAdded;
+@property (nonatomic, assign) BOOL chanceToAddInfo;
+
+@property (nonatomic, retain) UIImageView *imageView;
+@property (nonatomic, assign) BOOL didUserDismissCamera;
 
 @end
 
@@ -33,9 +47,8 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.colorScheme = [[UIColor robinEggColor] colorSchemeOfType:ColorSchemeTriad];
+        self.colorScheme = [[UIColor robinEggColor] colorSchemeOfType:ColorSchemeAnalagous];
         [self.view setBackgroundColor:[UIColor robinEggColor]];
-        self.changed = NO;
         self.manager = [[SoundManager alloc] init];
         self.manager.allowsBackgroundMusic = YES;
     }
@@ -43,31 +56,112 @@
 }
                                       
 - (void)willSave {
-    NSDate *date = [NSDate date];
-    Event *newEvent = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
-                                                      inManagedObjectContext:self.managedObjectContext];
-    newEvent.timestamp = date;
-    newEvent.rating = self.number;
-    NSError *error;
-    if (![self.managedObjectContext save:&error]) {
-        NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
+    [self.slider removeFromSuperview];
+    [self.ratingLabel removeFromSuperview];
+
+    if (!self.chanceToAddInfo) {
+        if (!self.infoAdded) {
+            [self.cancelButton setTitle:@"" forState:UIControlStateNormal];
+            [self.cancelButton setBackgroundImage:[UIImage imageNamed:@"cancelButton.png"] forState:UIControlStateNormal];
+            [self.cancelButton.imageView setTintColor:[UIColor whiteColor]];
+            
+            UITextView *noteView = [[UITextView alloc] initWithFrame:CGRectMake(20, 100, 280, 120)];
+            [noteView setDelegate:self];
+            [noteView setBackgroundColor:[UIColor clearColor]];
+            [noteView setFont:[UIFont systemFontOfSize:18]];
+            [noteView setTextColor:[UIColor whiteColor]];
+            [self.view addSubview:noteView];
+            
+            self.noteHintLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 120, 280, 40)];
+            [self.noteHintLabel setText:@"Add a note?"];
+            [self.noteHintLabel setFont:[UIFont systemFontOfSize:18]];
+            [self.noteHintLabel setTextAlignment:NSTextAlignmentCenter];
+            [self.noteHintLabel setTextColor:[UIColor whiteColor]];
+            [self.view addSubview:self.noteHintLabel];
+            
+            self.infoAdded = YES;
+            
+            int y = (isiPhone5) ? 280 : 200;
+            self.cameraButton = [[UIButton alloc] initWithFrame:CGRectMake(0, y, 320, 120)];
+            [self.cameraButton setTitle:@"Add a picture?" forState:UIControlStateNormal];
+            [self.cameraButton setBackgroundColor:[self.colorScheme objectAtIndex:1]];
+            [self.cameraButton addTarget:self action:@selector(loadCamera) forControlEvents:UIControlEventTouchUpInside];
+            [self.view addSubview:self.cameraButton];
+            
+            self.chanceToAddInfo = YES;
+        }
+    } else {
+        NSDate *date = [NSDate date];
+        Event *newEvent = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
+                                                          inManagedObjectContext:self.managedObjectContext];
+        newEvent.timestamp = date;
+        newEvent.rating = self.number;
+        newEvent.note = self.eventNote;
+        NSData *imageData = UIImagePNGRepresentation(self.imageView.image);
+        newEvent.image = imageData;
+        
+        NSError *error;
+        if (![self.managedObjectContext save:&error]) {
+            NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
+        }
+        
+        NSDictionary *options = @{
+                                  kCRToastTextKey : @"Thanks for the report!",
+                                  kCRToastTextAlignmentKey : @(NSTextAlignmentCenter),
+                                  kCRToastBackgroundColorKey : [self.colorScheme objectAtIndex:3],
+                                  kCRToastAnimationInTypeKey : @(CRToastAnimationTypeGravity),
+                                  kCRToastAnimationOutTypeKey : @(CRToastAnimationTypeGravity),
+                                  kCRToastAnimationInDirectionKey : @(CRToastAnimationDirectionLeft),
+                                  kCRToastAnimationOutDirectionKey : @(CRToastAnimationDirectionRight),
+                                  kCRToastNotificationTypeKey : @(CRToastTypeNavigationBar)
+                                  };
+        [CRToastManager showNotificationWithOptions:options completionBlock:nil];
+            
+        [self dismissNow];
+    }
+}
+
+- (void)loadCamera {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle: nil
+                                                             delegate: self
+                                                    cancelButtonTitle: @"Cancel"
+                                               destructiveButtonTitle: nil
+                                                    otherButtonTitles: @"Take a new photo",
+                                  @"Choose from existing", nil];
+    [actionSheet showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.delegate = self;
+    picker.allowsEditing = YES;
+    
+    if (buttonIndex == 0) {
+        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        picker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
+    } else if (buttonIndex == 1) {
+        picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     }
     
-    NSArray *colorScheme = [[UIColor robinEggColor] colorSchemeOfType:ColorSchemeAnalagous];
+    [self presentViewController:picker animated:YES completion:NULL];
+    self.didUserDismissCamera = YES;
+}
 
-    NSDictionary *options = @{
-                              kCRToastTextKey : @"Thanks for the report!",
-                              kCRToastTextAlignmentKey : @(NSTextAlignmentCenter),
-                              kCRToastBackgroundColorKey : [colorScheme objectAtIndex:3],
-                              kCRToastAnimationInTypeKey : @(CRToastAnimationTypeGravity),
-                              kCRToastAnimationOutTypeKey : @(CRToastAnimationTypeGravity),
-                              kCRToastAnimationInDirectionKey : @(CRToastAnimationDirectionLeft),
-                              kCRToastAnimationOutDirectionKey : @(CRToastAnimationDirectionRight),
-                              kCRToastNotificationTypeKey : @(CRToastTypeNavigationBar)
-                              };
-    [CRToastManager showNotificationWithOptions:options completionBlock:nil];
-        
-    [self dismissNow];
+#pragma mark - UIImagePickerController Delegate Methods
+    
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    
+    UIImage *imageForDisplay = [UIImage scaleImage:info[UIImagePickerControllerEditedImage] toResolution:400];
+    [self.cameraButton setImage:imageForDisplay forState:UIControlStateNormal];
+    self.cameraButton.imageView.contentMode = UIViewContentModeCenter;
+    self.cameraButton.imageView.clipsToBounds = YES;
+    self.imageView.image = info[UIImagePickerControllerEditedImage];
+    [picker dismissViewControllerAnimated:YES completion:NULL];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    
+    [picker dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (void)willCancel {
@@ -149,18 +243,18 @@
 }
 
 - (void)showButtons {
-    UIButton* addButton = [self createButtonWithText:@"+" WithX:160 WithColor:[UIColor pastelGreenColor]];
-    [addButton addTarget:self action:@selector(willSave) forControlEvents:UIControlEventTouchUpInside];
+    self.addButton = [self createButtonWithText:@"+" WithX:160 WithColor:[UIColor pastelGreenColor]];
+    [self.addButton addTarget:self action:@selector(willSave) forControlEvents:UIControlEventTouchUpInside];
 
-    UIButton* cancelButton = [self createButtonWithText:@"x" WithX:0 WithColor:[UIColor salmonColor]];
-    [cancelButton addTarget:self action:@selector(willCancel) forControlEvents:UIControlEventTouchUpInside];
+    self.cancelButton = [self createButtonWithText:@"x" WithX:0 WithColor:[UIColor salmonColor]];
+    [self.cancelButton addTarget:self action:@selector(willCancel) forControlEvents:UIControlEventTouchUpInside];
 
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.3];
-    [cancelButton setAlpha:1.0];
-    [addButton setAlpha:1.0];
-    [self.view addSubview:cancelButton];
-    [self.view addSubview:addButton];
+    [self.cancelButton setAlpha:1.0];
+    [self.addButton setAlpha:1.0];
+    [self.view addSubview:self.cancelButton];
+    [self.view addSubview:self.addButton];
     [UIView commitAnimations];
 }
 
@@ -183,6 +277,28 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    
+    if([text isEqualToString:@"\n"]) {
+        [textView resignFirstResponder];
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView {
+    [self.noteHintLabel removeFromSuperview];
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView {
+    if ([textView.text isEqualToString:@""]) {
+        [self.view addSubview:self.noteHintLabel];
+    } else {
+        self.eventNote = textView.text;
+    }
 }
 
 /*

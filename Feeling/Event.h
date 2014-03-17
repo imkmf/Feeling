@@ -14,5 +14,7 @@
 
 @property (nonatomic, retain) NSDate * timestamp;
 @property (nonatomic, retain) NSNumber * rating;
+@property (nonatomic, retain) NSData * image;
+@property (nonatomic, retain) NSString * note;
 
 @end

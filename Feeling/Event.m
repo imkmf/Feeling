@@ -13,5 +13,7 @@
 
 @dynamic timestamp;
 @dynamic rating;
+@dynamic image;
+@dynamic note;
 
 @end

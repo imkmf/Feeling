@@ -33,6 +33,7 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
 
 @property (nonatomic, strong) JBLineChartView *lineChartView;
 @property (nonatomic, strong) UIButton *addView;
+@property (nonatomic, strong) UIButton *arrow;
 @property (nonatomic, strong) JBChartInformationView *informationView;
 
 @property (nonatomic,strong) NSArray *fetchedEventsArray;
@@ -113,11 +114,11 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
         [self.view addSubview:self.addView];
         
         int mod = (isiPhone5) ? mod = 180 : 130;
-        UIButton *arrow = [[UIButton alloc] initWithFrame:CGRectMake(135, CGRectGetMaxY(self.lineChartView.frame) + mod, 50, 50)];
-        [arrow setImage:[UIImage imageNamed:@"arrow-down.png"] forState:UIControlStateNormal];
-        arrow.alpha = 0.5;
-        [arrow addTarget:self action:@selector(toTable) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:arrow];
+        self.arrow = [[UIButton alloc] initWithFrame:CGRectMake(135, CGRectGetMaxY(self.lineChartView.frame) + mod, 50, 50)];
+        [self.arrow setImage:[UIImage imageNamed:@"arrow-down.png"] forState:UIControlStateNormal];
+        [self.arrow addTarget:self action:@selector(toTable) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:self.arrow];
+
     } else {
         UILabel *introLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 200, self.view.bounds.size.width, 80)];
         introLabel.textAlignment = NSTextAlignmentCenter;
@@ -143,6 +144,14 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
         [self.addView setAlpha:1.0];
         [self.addView addTarget:self action:@selector(addEvent:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:self.addView];
+        
+        if (self.fetchedEventsArray.count == 1) {
+            int mod = (isiPhone5) ? mod = 500 : 450;
+            self.arrow = [[UIButton alloc] initWithFrame:CGRectMake(135, CGRectGetMaxY(self.lineChartView.frame) + mod, 50, 50)];
+            [self.arrow setImage:[UIImage imageNamed:@"arrow-down.png"] forState:UIControlStateNormal];
+            [self.arrow addTarget:self action:@selector(toTable) forControlEvents:UIControlEventTouchUpInside];
+            [self.view addSubview:self.arrow];
+        }
     }
 
     self.lineChartView.dataSource = self;
@@ -173,8 +182,11 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
             if (result == NSOrderedSame) { alreadyExists = true; }
         }
     }
-    
+    SoundManager *manager = [[SoundManager alloc] init];
+    [manager prepareToPlay];
+    [manager setAllowsBackgroundMusic:YES];
     if (alreadyExists) {
+
         NSDictionary *options = @{
                                   kCRToastTextKey : @"You've already added an event for today.",
                                   kCRToastTextAlignmentKey : @(NSTextAlignmentCenter),
@@ -185,26 +197,19 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
                                   kCRToastAnimationOutDirectionKey : @(CRToastAnimationDirectionRight),
                                   kCRToastNotificationTypeKey : @(CRToastTypeNavigationBar)
                                   };
-        if ([[NSUserDefaults standardUserDefaults] stringForKey:@"Play Sounds"]) {
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Play Sounds"]) {
             NSString *path = [[NSBundle mainBundle] pathForResource:@"fail" ofType:@"caf"];
             Sound *sound = [Sound soundNamed:path];
-            
-            SoundManager *manager = [[SoundManager alloc] init];
-            
-            [manager prepareToPlay];
             [manager playSound:sound];
         }
         [CRToastManager showNotificationWithOptions:options completionBlock:nil];
     } else {
-        if ([[NSUserDefaults standardUserDefaults] stringForKey:@"Play Sounds"]) {
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Play Sounds"]) {
             NSString *path = [[NSBundle mainBundle] pathForResource:@"button" ofType:@"caf"];
             Sound *sound = [Sound soundNamed:path];
-            
-            SoundManager *manager = [[SoundManager alloc] init];
-            
-            [manager prepareToPlay];
             [manager playSound:sound];
         }
+
         AddEventViewController *addEvent = [[AddEventViewController alloc] init];
         [self.navigationController presentViewController:addEvent animated:YES completion:nil];
     }
@@ -258,6 +263,8 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
     [UIView setAnimationDuration:0.3];
     [self.addView setAlpha:0];
     [self.addView setHidden:YES];
+    [self.arrow setAlpha:0];
+    [self.arrow setHidden:YES];
     [UIView commitAnimations];
     [self.informationView setHidden:NO animated:YES];
 }
@@ -268,22 +275,16 @@ NSString * const kJBLineChartViewControllerNavButtonViewKey = @"view";
     [UIView setAnimationDuration:0.5];
     [self.addView setAlpha:1];
     [self.addView setHidden:NO];
+    [self.arrow setAlpha:1];
+    [self.arrow setHidden:NO];
     [UIView commitAnimations];
     [self.informationView setHidden:YES animated:YES];
 }
 
 - (void)toTable {
     EventsListController *listController = [[EventsListController alloc] initWithStyle:UITableViewStylePlain];
-    [self turnPage:listController direction:UIPageViewControllerNavigationDirectionForward];
-}
-
-- (void)goBack {
-    [self turnPage:self direction:UIPageViewControllerNavigationDirectionReverse];
-}
-
-- (void)turnPage:(id)controller direction:(UIPageViewControllerNavigationDirection)direction {
     AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
-    [appDelegate.pageViewController setViewControllers:@[controller] direction:direction animated:YES completion:nil];
+    [appDelegate.pageViewController setViewControllers:@[listController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
 }
 
 

@@ -15,5 +15,12 @@
 @dynamic rating;
 @dynamic image;
 @dynamic note;
+@dynamic userDeleted;
+
+- (NSString *)formattedDate {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateStyle:NSDateFormatterShortStyle];
+    return [formatter stringFromDate:self.timestamp];
+}
 
 @end

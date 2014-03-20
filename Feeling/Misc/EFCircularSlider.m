@@ -171,6 +171,9 @@
 }
 
 -(BOOL) beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
+    if (self.readOnly) {
+        return NO;
+    }
     [super beginTrackingWithTouch:touch withEvent:event];
     [self changePoint:touch];
     

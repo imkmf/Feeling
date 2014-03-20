@@ -15,7 +15,9 @@
 #import <CRToast.h>
 #import "UIImage+Color.h"
 
-@interface AddEventViewController () <UITextViewDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate>
+#import <MWPhotoBrowser.h>
+
+@interface AddEventViewController () <UITextViewDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, MWPhotoBrowserDelegate>
 @property (nonatomic, assign) BOOL changed;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) UILabel *ratingLabel;
@@ -33,11 +35,20 @@
 @property (nonatomic, retain) UIButton *cameraButton;
 
 @property (nonatomic, retain) UILabel *noteHintLabel;
+@property (nonatomic, retain) UILabel *introText;
+
 @property (nonatomic, assign) BOOL infoAdded;
 @property (nonatomic, assign) BOOL chanceToAddInfo;
 
+@property (nonatomic, retain) UITextView *noteView;
+
 @property (nonatomic, retain) UIImageView *imageView;
+@property (nonatomic, retain) UIImage *imageToSave;
+@property (nonatomic, retain) UIImage *imageToDisplay;
 @property (nonatomic, assign) BOOL didUserDismissCamera;
+
+@property (nonatomic, retain) NSMutableArray *photos;
+
 
 @end
 
@@ -56,54 +67,90 @@
 }
                                       
 - (void)willSave {
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:0.3];
+    [self.slider setAlpha:0];
+    [self.slider setHidden:YES];
+    [self.ratingLabel setAlpha:0];
+    [self.ratingLabel setHidden:YES];
+    [UIView commitAnimations];
     [self.slider removeFromSuperview];
     [self.ratingLabel removeFromSuperview];
+    
+    self.introText.text = @"How are you?";
 
     if (!self.chanceToAddInfo) {
         if (!self.infoAdded) {
-            [self.cancelButton setTitle:@"" forState:UIControlStateNormal];
-            [self.cancelButton setBackgroundImage:[UIImage imageNamed:@"cancelButton.png"] forState:UIControlStateNormal];
-            [self.cancelButton.imageView setTintColor:[UIColor whiteColor]];
-            
             UITextView *noteView = [[UITextView alloc] initWithFrame:CGRectMake(20, 100, 280, 120)];
             [noteView setDelegate:self];
             [noteView setBackgroundColor:[UIColor clearColor]];
             [noteView setFont:[UIFont systemFontOfSize:18]];
             [noteView setTextColor:[UIColor whiteColor]];
-            [self.view addSubview:noteView];
             
-            self.noteHintLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 120, 280, 40)];
-            [self.noteHintLabel setText:@"Add a note?"];
-            [self.noteHintLabel setFont:[UIFont systemFontOfSize:18]];
-            [self.noteHintLabel setTextAlignment:NSTextAlignmentCenter];
-            [self.noteHintLabel setTextColor:[UIColor whiteColor]];
-            [self.view addSubview:self.noteHintLabel];
+            [noteView setAlpha:0];
+            [self.view addSubview:noteView];
+            [UIView beginAnimations:nil context:nil];
+            [noteView setAlpha:1];
+            [UIView setAnimationDuration:0.3];
+            [UIView commitAnimations];
+            self.noteView = noteView;
+            self.noteView.text = self.eventNote;
+            
+            if (!self.eventNote) {
+                self.noteHintLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 120, 280, 40)];
+                [self.noteHintLabel setText:@"Add a note?"];
+                [self.noteHintLabel setFont:[UIFont systemFontOfSize:18]];
+                [self.noteHintLabel setTextAlignment:NSTextAlignmentCenter];
+                [self.noteHintLabel setTextColor:[UIColor whiteColor]];
+                
+                [self.noteHintLabel setAlpha:0];
+                [self.view addSubview:self.noteHintLabel];
+                [UIView beginAnimations:nil context:nil];
+                [self.noteHintLabel setAlpha:1];
+                [UIView setAnimationDuration:0.3];
+                [UIView commitAnimations];
+            }
             
             self.infoAdded = YES;
             
             int y = (isiPhone5) ? 280 : 200;
             self.cameraButton = [[UIButton alloc] initWithFrame:CGRectMake(0, y, 320, 120)];
-            [self.cameraButton setTitle:@"Add a picture?" forState:UIControlStateNormal];
-            [self.cameraButton setBackgroundColor:[self.colorScheme objectAtIndex:1]];
+            if (self.event.image) {
+                UIImage *imageForDisplay = [UIImage scaleImage:[UIImage imageWithData:self.event.image] toResolution:400];
+                [self.cameraButton setImage:imageForDisplay forState:UIControlStateNormal];
+                self.cameraButton.imageView.contentMode = UIViewContentModeCenter;
+                self.cameraButton.imageView.clipsToBounds = YES;
+            } else {
+                [self.cameraButton setTitle:@"Add a picture?" forState:UIControlStateNormal];
+                [self.cameraButton setBackgroundColor:[self.colorScheme objectAtIndex:1]];
+            }
             [self.cameraButton addTarget:self action:@selector(loadCamera) forControlEvents:UIControlEventTouchUpInside];
+
+            
             [self.view addSubview:self.cameraButton];
             
             self.chanceToAddInfo = YES;
         }
     } else {
         NSDate *date = [NSDate date];
-        Event *newEvent = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
-                                                          inManagedObjectContext:self.managedObjectContext];
-        newEvent.timestamp = date;
-        newEvent.rating = self.number;
-        newEvent.note = self.eventNote;
-        NSData *imageData = UIImagePNGRepresentation(self.imageView.image);
-        newEvent.image = imageData;
+        if (!self.event) {
+            self.event = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
+                                              inManagedObjectContext:self.managedObjectContext];
+        }
+        if (!self.event.timestamp) {
+            self.event.timestamp = date;
+        }
+        self.event.rating = self.number;
+        self.event.note = self.eventNote;
+        NSData *imageData = UIImagePNGRepresentation(self.imageToSave);
+        self.event.image = imageData;
         
         NSError *error;
         if (![self.managedObjectContext save:&error]) {
             NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
         }
+        
+        self.introText.text = @"";
         
         NSDictionary *options = @{
                                   kCRToastTextKey : @"Thanks for the report!",
@@ -122,13 +169,24 @@
 }
 
 - (void)loadCamera {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle: nil
-                                                             delegate: self
-                                                    cancelButtonTitle: @"Cancel"
-                                               destructiveButtonTitle: nil
-                                                    otherButtonTitles: @"Take a new photo",
-                                  @"Choose from existing", nil];
-    [actionSheet showInView:self.view];
+    if (self.event.image) {
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle: nil
+                                                                 delegate: self
+                                                        cancelButtonTitle: @"Cancel"
+                                                   destructiveButtonTitle: nil
+                                                        otherButtonTitles: @"View photo",
+                                      @"Take a new photo", @"Choose from existing", nil];
+        [actionSheet showInView:[self.view window]];
+    } else {
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle: nil
+                                                                 delegate: self
+                                                        cancelButtonTitle: @"Cancel"
+                                                   destructiveButtonTitle: nil
+                                                        otherButtonTitles: @"Take a new photo",
+                                      @"Choose from existing", nil];
+        [actionSheet showInView:[self.view window]];
+
+    }
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -136,14 +194,35 @@
     picker.delegate = self;
     picker.allowsEditing = YES;
     
-    if (buttonIndex == 0) {
-        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        picker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
-    } else if (buttonIndex == 1) {
-        picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    if (self.event.image) {
+        if (buttonIndex == 0) {
+            self.photos = [NSMutableArray array];
+            [self.photos addObject:[MWPhoto photoWithImage:self.imageView.image]];
+            MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
+            browser.displayActionButton = NO;
+            UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:browser];
+            nc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+            [self presentViewController:nc animated:YES completion:nil];
+        } else if (buttonIndex == 1) {
+            picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+            picker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
+            [self presentViewController:picker animated:YES completion:NULL];
+        } else if (buttonIndex == 2) {
+            picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            [self presentViewController:picker animated:YES completion:NULL];
+        }
+    } else {
+    
+        if (buttonIndex == 0) {
+            picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+            picker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
+            [self presentViewController:picker animated:YES completion:NULL];
+        } else if (buttonIndex == 1) {
+            picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            [self presentViewController:picker animated:YES completion:NULL];
+        }
     }
     
-    [self presentViewController:picker animated:YES completion:NULL];
     self.didUserDismissCamera = YES;
 }
 
@@ -155,12 +234,8 @@
     [self.cameraButton setImage:imageForDisplay forState:UIControlStateNormal];
     self.cameraButton.imageView.contentMode = UIViewContentModeCenter;
     self.cameraButton.imageView.clipsToBounds = YES;
-    self.imageView.image = info[UIImagePickerControllerEditedImage];
-    [picker dismissViewControllerAnimated:YES completion:NULL];
-}
-
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    
+    self.imageToSave = info[UIImagePickerControllerOriginalImage];
+    self.imageView.image = self.imageToSave;
     [picker dismissViewControllerAnimated:YES completion:NULL];
 }
 
@@ -174,7 +249,7 @@
 
 - (void)viewDidLoad
 {
-    int y = (isiPhone5) ? 150 : 120;
+    int y = (isiPhone5) ? 120 : 110;
     
     CGRect sliderFrame = CGRectMake(60, y, 200, 200);
     self.slider = [[EFCircularSlider alloc] initWithFrame:sliderFrame];
@@ -185,12 +260,12 @@
     AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
     self.managedObjectContext = appDelegate.managedObjectContext;
     
-    UILabel *introText = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 60)];
-    introText.text = @"How are you?";
-    [introText setFont:[UIFont boldSystemFontOfSize:30]];
-    [introText setTextColor:[UIColor whiteColor]];
-    [introText setTextAlignment:NSTextAlignmentCenter];
-    [self.view addSubview:introText];
+    self.introText = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 60)];
+    self.introText.text = @"How are you?";
+    [self.introText setFont:[UIFont boldSystemFontOfSize:30]];
+    [self.introText setTextColor:[UIColor whiteColor]];
+    [self.introText setTextAlignment:NSTextAlignmentCenter];
+    [self.view addSubview:self.introText];
     
     self.ratingLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, y + 40, 120, 120)];
     self.ratingLabel.text = @"?";
@@ -231,7 +306,8 @@
 -(void)setNumberAndPlaySound:(NSNumber*)rounded {
     if (![self.number isEqualToNumber:rounded]) {
         self.number = rounded;
-        if ([[NSUserDefaults standardUserDefaults] stringForKey:@"Play Sounds"]) {
+        bool playSounds = [[NSUserDefaults standardUserDefaults] boolForKey:@"Play Sounds"];
+        if (playSounds) {
             NSString *path = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%i", [rounded intValue]] ofType:@"caf"];
             Sound *sound = [Sound soundNamed:path];
             
@@ -301,15 +377,83 @@
     }
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)setReadOnly {
+    [self.addButton setEnabled:NO];
+    [self.addButton setHidden:YES];
+    [self.cancelButton setEnabled:NO];
+    [self.cancelButton setHidden:YES];
+    
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToClose)];
+    [self.view addGestureRecognizer:tap];
+    
+    [self.slider setReadOnly:YES];
 }
-*/
+
+- (void)setSliderValue:(Event *)event {
+    [self.introText setText:event.note];
+//    [self.introText sizeToFit];
+    [self.introText setTextAlignment:NSTextAlignmentCenter];
+    UILabel *dateText = [[UILabel alloc] initWithFrame:CGRectMake(0, 60, 320, 60)];
+    dateText.text = [event formattedDate];
+    [dateText setTextAlignment:NSTextAlignmentCenter];
+    [dateText setTextColor:[UIColor whiteColor]];
+    [self.view addSubview:dateText];
+    
+    [self.slider setCurrentValue:([event.rating floatValue] * 20 - 5)];
+}
+
+- (void)addImage:(NSData *)data {
+    self.imageToDisplay = [UIImage scaleImage:[[UIImage alloc] initWithData:data] toResolution:400];
+
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:self.imageToDisplay];
+    imageView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tapTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(openImage)];
+    [imageView addGestureRecognizer:tapTap];
+
+    imageView.contentMode = UIViewContentModeCenter;
+    imageView.clipsToBounds = YES;
+    
+    int y = (isiPhone5) ? 340 : 320;
+    imageView.frame = CGRectMake(0, y, 320, 160);
+    
+    [self moveSlider:60];
+    
+    [self.view addSubview:imageView];
+}
+
+- (void)openImage {
+    self.photos = [NSMutableArray array];
+    [self.photos addObject:[MWPhoto photoWithImage:self.imageToDisplay]];
+    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
+    browser.displayActionButton = NO;
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:browser];
+    nc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self presentViewController:nc animated:YES completion:nil];
+}
+
+- (void)moveSlider:(int)moveBy {
+    [self.slider setFrame:CGRectMake(self.slider.frame.origin.x, self.slider.frame.origin.y - 10, self.slider.frame.size.width, self.slider.frame.size.height)];
+    [self.ratingLabel setFrame:CGRectMake(self.ratingLabel.frame.origin.x - moveBy / 2 - 8, self.ratingLabel.frame.origin.y - moveBy / 2 - 18, self.slider.frame.size.width, self.slider.frame.size.height)];
+}
+
+- (void)editMode {
+    [self.noteHintLabel setHidden:YES];
+    self.eventNote = self.event.note;
+}
+
+- (void)tapToClose {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
+    return self.photos.count;
+}
+
+- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
+    if (index < self.photos.count)
+        return [self.photos objectAtIndex:index];
+    return nil;
+}
 
 @end

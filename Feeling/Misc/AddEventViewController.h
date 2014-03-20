@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Event.h"
 
 @interface AddEventViewController : UIViewController
-
+@property (nonatomic, assign) Event *event;
+- (void)editMode;
+- (void)addImage:(NSData *)data;
+- (void)setReadOnly;
+- (void)setSliderValue:(Event*)event;
 @end

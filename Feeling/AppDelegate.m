@@ -12,7 +12,6 @@
 // Controllers
 #import "FeelingsBaseNavigationController.h"
 #import "FeelingsChartViewController.h"
-#import "EventsListController.h"
 
 #import "Event.h"
 
@@ -40,11 +39,11 @@
     
     [self.pageViewController setViewControllers:@[self.navigationController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
     
-    self.pageViewController.dataSource = self.navigationController;
-    
     self.window.rootViewController = self.pageViewController;
     [self.window makeKeyAndVisible];
     
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent
+                                                animated:NO];
     
     if (application.scheduledLocalNotifications.count > 1) {
         // For testing notification settings
@@ -62,16 +61,16 @@
         [application scheduleLocalNotification:notification];
     }
     
-    if (self.getAllEvents.count == 1) {
-        [self showSingleEntryAlert];
-    }
+    if (self.getAllEvents.count == 1) { [self showSingleEntryAlert]; }
 //    [self insertTestData];
+//    [self removeAllData];
+    
     return YES;
 }
 
 - (void)showSingleEntryAlert {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Single entry"
-                                                    message:@"You've only added one entry, so your graph is empty. Come back tomorrow!"
+                                                    message:@"You've only added one entry, so your graph is empty. Add an additional entry for the graph to appear."
                                                    delegate:self
                                           cancelButtonTitle:@"OK"
                                           otherButtonTitles:nil];
@@ -125,24 +124,29 @@
 
 -(NSArray*)getAllEvents 
 {
-    // initializing NSFetchRequest
+    
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    
-    //Setting Entity to be Queried
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Event"
-                                              inManagedObjectContext:self.managedObjectContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Event" inManagedObjectContext:self.managedObjectContext];
     [fetchRequest setEntity:entity];
-    NSError* error;
+    // Specify criteria for filtering which objects to fetch
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"userDeleted == NO"];
+    [fetchRequest setPredicate:predicate];
+    // Specify how the fetched objects should be sorted
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timestamp"
+                                                                   ascending:YES];
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:sortDescriptor, nil]];
     
-    // Query on managedObjectContext With Generated fetchRequest
-    NSArray *fetchedRecords = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-    
-    // Returning Fetched Records
-    return fetchedRecords;
+    NSError *error = nil;
+    NSArray *fetchedObjects = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    if (fetchedObjects == nil) {
+        NSLog(@"%@", error);
+    }
+    return fetchedObjects;
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application
+- (void)applicationWillEnterForeground:(UIApplication *)application
 {
+    if (self.getAllEvents.count == 1) { [self showSingleEntryAlert]; }
     application.applicationIconBadgeNumber = 0;
 }
 
@@ -157,16 +161,26 @@
     return NO;
 }
 
+- (void)removeAllData {
+    NSManagedObjectContext * context = [self managedObjectContext];
+    NSFetchRequest * fetch = [[NSFetchRequest alloc] init];
+    [fetch setEntity:[NSEntityDescription entityForName:@"Event" inManagedObjectContext:context]];
+    NSArray * result = [context executeFetchRequest:fetch error:nil];
+    for (id event in result)
+        [context deleteObject:event];
+}
+
 - (void)insertTestData {
     int i;
     for (i=0; i < 10; i = i + 1) {
         Event *newEvent = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
                                                         inManagedObjectContext:self.managedObjectContext];
         int max = 5;
-        int min = 0;
+        int min = 1;
         int randomNumber = min + arc4random() % (max-min);
         newEvent.timestamp = [NSDate dateWithTimeIntervalSinceNow:-1209600.0 + (randomNumber * 100)];
         newEvent.rating = [NSNumber numberWithInt:randomNumber];
+        newEvent.note = [NSString stringWithFormat:@"Just testing %i", randomNumber];
         NSError *error;
         NSLog(@"new event");
         if (![self.managedObjectContext save:&error]) {

@@ -8,4 +8,6 @@ target "Feeling" do
   pod 'Colours', '~> 5.1.0'
   pod 'CRToast', '~> 0.0.5'
   pod 'MYBlurIntroductionView'
+  pod 'MCSwipeTableViewCell'
+  pod 'MWPhotoBrowser'
 end

@@ -9,10 +9,7 @@
 /* Begin PBXBuildFile section */
 		18BE4FC02D754EFAA7BC2497 /* libPods-Feeling.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C967692E831451E9AE50410 /* libPods-Feeling.a */; };
 		483BEEC418D6AEB600F2833A /* UIImage+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 483BEEC318D6AEB600F2833A /* UIImage+Color.m */; };
-		483BEEC718D6B2AB00F2833A /* cancelButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 483BEEC518D6B2AB00F2833A /* cancelButton.png */; };
-		483BEEC818D6B2AB00F2833A /* cancelButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 483BEEC618D6B2AB00F2833A /* cancelButton@2x.png */; };
 		4848DFC718BF050500FC2FA2 /* EventsListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4848DFC618BF050500FC2FA2 /* EventsListController.m */; };
-		4848DFC918BF0F9600FC2FA2 /* arrow-down.png in Resources */ = {isa = PBXBuildFile; fileRef = 4848DFC818BF0F9600FC2FA2 /* arrow-down.png */; };
 		486582B018BC67FC0068BD12 /* Jingle.aif in Resources */ = {isa = PBXBuildFile; fileRef = 486582AF18BC664A0068BD12 /* Jingle.aif */; };
 		486E6C8718BB3626003B778F /* AddEventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 486E6C8618BB3626003B778F /* AddEventViewController.m */; };
 		487CAEF418BB3E5C00269992 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 487CAEF318BB3E5C00269992 /* CoreData.framework */; };
@@ -60,12 +57,9 @@
 		2C967692E831451E9AE50410 /* libPods-Feeling.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Feeling.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		483BEEC218D6AEB600F2833A /* UIImage+Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Color.h"; sourceTree = "<group>"; };
 		483BEEC318D6AEB600F2833A /* UIImage+Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Color.m"; sourceTree = "<group>"; };
-		483BEEC518D6B2AB00F2833A /* cancelButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancelButton.png; sourceTree = "<group>"; };
-		483BEEC618D6B2AB00F2833A /* cancelButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cancelButton@2x.png"; sourceTree = "<group>"; };
 		483BEEC918D6B9E200F2833A /* Event 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Event 2.xcdatamodel"; sourceTree = "<group>"; };
 		4848DFC518BF050500FC2FA2 /* EventsListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventsListController.h; sourceTree = "<group>"; };
 		4848DFC618BF050500FC2FA2 /* EventsListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventsListController.m; sourceTree = "<group>"; };
-		4848DFC818BF0F9600FC2FA2 /* arrow-down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-down.png"; sourceTree = "<group>"; };
 		486582AF18BC664A0068BD12 /* Jingle.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = Jingle.aif; sourceTree = "<group>"; };
 		486E6C8518BB3626003B778F /* AddEventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddEventViewController.h; path = Misc/AddEventViewController.h; sourceTree = "<group>"; };
 		486E6C8618BB3626003B778F /* AddEventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddEventViewController.m; path = Misc/AddEventViewController.m; sourceTree = "<group>"; };
@@ -84,6 +78,7 @@
 		4892175718BB1CC500F0C6EE /* JBLineChartFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JBLineChartFooterView.m; path = Footers/JBLineChartFooterView.m; sourceTree = "<group>"; };
 		4892175918BB1CC500F0C6EE /* JBChartHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JBChartHeaderView.h; path = Headers/JBChartHeaderView.h; sourceTree = "<group>"; };
 		4892175A18BB1CC500F0C6EE /* JBChartHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JBChartHeaderView.m; path = Headers/JBChartHeaderView.m; sourceTree = "<group>"; };
+		48997F3C18F7B35A00E4E008 /* Event 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Event 3.xcdatamodel"; sourceTree = "<group>"; };
 		489CB03918BB161C00966E29 /* Feeling.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Feeling.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		489CB03C18BB161C00966E29 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		489CB03E18BB161C00966E29 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -207,12 +202,8 @@
 		489CB04318BB161C00966E29 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				483BEEC518D6B2AB00F2833A /* cancelButton.png */,
-				483BEEC618D6B2AB00F2833A /* cancelButton@2x.png */,
-				487CAEF518BB3E6F00269992 /* Event.xcdatamodeld */,
 				48BED41418D503240031C68C /* Settings.bundle */,
 				48F8C87418D63BA200D8582C /* Sounds */,
-				4848DFC818BF0F9600FC2FA2 /* arrow-down.png */,
 				489CB04418BB161C00966E29 /* Feeling-Info.plist */,
 				489CB04518BB161C00966E29 /* InfoPlist.strings */,
 				489CB04818BB161C00966E29 /* main.m */,
@@ -263,6 +254,7 @@
 		48F8C87518D63BB200D8582C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				487CAEF518BB3E6F00269992 /* Event.xcdatamodeld */,
 				487CAEF818BB3F2000269992 /* Event.h */,
 				487CAEF918BB3F2000269992 /* Event.m */,
 			);
@@ -377,16 +369,13 @@
 			files = (
 				48BED41918D509A90031C68C /* fail.caf in Resources */,
 				48BED41718D508700031C68C /* button.caf in Resources */,
-				483BEEC718D6B2AB00F2833A /* cancelButton.png in Resources */,
 				48BED40F18D4FF6D0031C68C /* 1.caf in Resources */,
 				48BED41018D4FF6D0031C68C /* 2.caf in Resources */,
 				48BED41518D503240031C68C /* Settings.bundle in Resources */,
-				483BEEC818D6B2AB00F2833A /* cancelButton@2x.png in Resources */,
 				48BED41118D4FF6D0031C68C /* 3.caf in Resources */,
 				48BED41218D4FF6D0031C68C /* 4.caf in Resources */,
 				48BED41318D4FF6D0031C68C /* 5.caf in Resources */,
 				486582B018BC67FC0068BD12 /* Jingle.aif in Resources */,
-				4848DFC918BF0F9600FC2FA2 /* arrow-down.png in Resources */,
 				489CB04718BB161C00966E29 /* InfoPlist.strings in Resources */,
 				489CB04F18BB161C00966E29 /* Images.xcassets in Resources */,
 			);
@@ -579,7 +568,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				BUNDLE_DISPLAY_NAME_SUFFIX = "ß";
+				BUNDLE_DISPLAY_NAME_SUFFIX = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -667,10 +656,11 @@
 		487CAEF518BB3E6F00269992 /* Event.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				48997F3C18F7B35A00E4E008 /* Event 3.xcdatamodel */,
 				483BEEC918D6B9E200F2833A /* Event 2.xcdatamodel */,
 				487CAEF618BB3E6F00269992 /* Event.xcdatamodel */,
 			);
-			currentVersion = 483BEEC918D6B9E200F2833A /* Event 2.xcdatamodel */;
+			currentVersion = 48997F3C18F7B35A00E4E008 /* Event 3.xcdatamodel */;
 			path = Event.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

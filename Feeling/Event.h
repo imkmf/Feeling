@@ -16,5 +16,8 @@
 @property (nonatomic, retain) NSNumber * rating;
 @property (nonatomic, retain) NSData * image;
 @property (nonatomic, retain) NSString * note;
+@property (nonatomic, retain) NSNumber * userDeleted;
+
+- (NSString *)formattedDate;
 
 @end
